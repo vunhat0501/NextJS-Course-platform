@@ -1,0 +1,9 @@
+# Ignore artifacts:
+node_modules
+dist
+.build
+.next
+coverage
+*.env
+.vscode
+eslint.config.mjs
