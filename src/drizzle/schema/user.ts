@@ -11,6 +11,7 @@ export const UserTable = pgTable('users', {
     id,
     clerkUserId: text().notNull().unique(),
     email: text().notNull(),
+    hashedPassword: text(),
     name: text().notNull(),
     role: userRoleEnum().notNull().default('user'),
     imageUrl: text(),
