@@ -1,3 +1,4 @@
+import { CourseSectionTable } from '@/drizzle/schema';
 import { CourseProductTable } from '@/drizzle/schema/courseProduct';
 import { UserCourseAccessTable } from '@/drizzle/schema/userCourseAccess';
 import { createdAt, id, updatedAt } from '@/drizzle/schemaHelper';
@@ -16,4 +17,5 @@ export const CourseTable = pgTable('course', {
 export const CourseRelationships = relations(CourseTable, ({ many }) => ({
     courseProducts: many(CourseProductTable),
     userCourseAccesses: many(UserCourseAccessTable),
+    courseSections: many(CourseSectionTable),
 }));

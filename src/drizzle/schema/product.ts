@@ -14,6 +14,7 @@ export const ProductTable = pgTable('product', {
     image_url: text().notNull(),
     priceInDollars: integer().notNull(),
     status: productStatusEnum().notNull().default('private'),
+    slot: integer().notNull(),
     createdAt,
     updatedAt,
 });

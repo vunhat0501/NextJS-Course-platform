@@ -16,7 +16,7 @@ export const LessonTable = pgTable('lessons', {
     order: integer().notNull(),
     status: lessonStatusEnum().notNull().default('private'),
     //** Neu xoa section thi xoa ca lesson cua khoa do */
-    sessionId: uuid()
+    sectionId: uuid()
         .notNull()
         .references(() => CourseSectionTable.id, { onDelete: 'cascade' }),
     createdAt,
@@ -25,7 +25,7 @@ export const LessonTable = pgTable('lessons', {
 
 export const LessonRelationships = relations(LessonTable, ({ one, many }) => ({
     section: one(CourseSectionTable, {
-        fields: [LessonTable.id],
+        fields: [LessonTable.sectionId],
         references: [CourseSectionTable.id],
     }),
     userLessonComplete: many(UserLessonCompleteTable),
