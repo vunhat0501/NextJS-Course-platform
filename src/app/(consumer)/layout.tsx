@@ -19,11 +19,8 @@ export default function ConsumerLayout({
 function Navbar() {
     return (
         <header className="flex shadow bg-background z-10">
-            <nav className="flex gap-4 container">
-                <Link
-                    className="mr-auto text-lg hover:underline px-2 flex items-center"
-                    href="/"
-                >
+            <nav className="flex gap-4 container my-2">
+                <Link className="mr-auto text-lg hover:underline" href="/">
                     Course Platform
                 </Link>
                 <SignedIn>

@@ -31,11 +31,11 @@ export const PurchaseTable = pgTable('purchases', {
 
 export const PurchaseRelationships = relations(PurchaseTable, ({ one }) => ({
     user: one(UserTable, {
-        fields: [PurchaseTable.id],
+        fields: [PurchaseTable.userId],
         references: [UserTable.id],
     }),
     product: one(ProductTable, {
-        fields: [PurchaseTable.id],
+        fields: [PurchaseTable.productId],
         references: [ProductTable.id],
     }),
 }));
