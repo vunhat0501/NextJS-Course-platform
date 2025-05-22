@@ -70,7 +70,8 @@ export function CourseTable({
                                     </Link>
                                 </Button>
                                 <ActionButton
-                                    variant="destructive"
+                                    variant="destructiveOutline"
+                                    requireAreYouSure
                                     action={deleteCourse.bind(null, course.id)}
                                 >
                                     <Trash2Icon />

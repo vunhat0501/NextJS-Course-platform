@@ -1,6 +1,9 @@
 'use server';
 
-import { insertCourse } from '@/features/courses/db/courses';
+import {
+    insertCourse,
+    deleteCourse as deleteCourseDB,
+} from '@/features/courses/db/courses';
 import {
     canCreateCourses,
     canDeleteCourses,
@@ -35,7 +38,7 @@ export async function deleteCourse(id: string) {
         return { error: true, message: 'Error while deleting course' };
     }
 
-    await deleteCourse(id);
+    await deleteCourseDB(id);
 
     return { error: false, message: 'Course deleted successfully' };
 }
