@@ -104,3 +104,18 @@ ALTER TABLE "user_course_access" ADD CONSTRAINT "user_course_access_userId_users
 ALTER TABLE "user_course_access" ADD CONSTRAINT "user_course_access_courseId_course_id_fk" FOREIGN KEY ("courseId") REFERENCES "public"."course"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_lesson_complete" ADD CONSTRAINT "user_lesson_complete_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_lesson_complete" ADD CONSTRAINT "user_lesson_complete_lessonId_lessons_id_fk" FOREIGN KEY ("lessonId") REFERENCES "public"."lessons"("id") ON DELETE cascade ON UPDATE no action;
+
+
+
+-- Sample data for users
+INSERT INTO product (id, name, description, image_url, priceInDollars, status, createdAt, updatedAt)
+VALUES (
+  gen_random_uuid(),
+  'Test Product',
+  'This is a test product',
+  'https://via.placeholder.com/300',
+  10,
+  'public',
+  NOW(),
+  NOW()
+);

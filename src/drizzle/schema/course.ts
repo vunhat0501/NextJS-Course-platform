@@ -3,7 +3,7 @@ import { UserCourseAccessTable } from '@/drizzle/schema/userCourseAccess';
 import { createdAt, id, updatedAt } from '@/drizzle/schemaHelper';
 import { relations } from 'drizzle-orm';
 import { pgTable, text } from 'drizzle-orm/pg-core';
-
+import { CourseSectionTable } from '@/drizzle/schema/courseSection'; // Thêm dòng này
 export const CourseTable = pgTable('course', {
     id,
     name: text().notNull(),
@@ -16,4 +16,5 @@ export const CourseTable = pgTable('course', {
 export const CourseRelationships = relations(CourseTable, ({ many }) => ({
     courseProducts: many(CourseProductTable),
     userCourseAccesses: many(UserCourseAccessTable),
+    sections: many(CourseSectionTable),
 }));

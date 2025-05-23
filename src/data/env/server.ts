@@ -6,6 +6,9 @@ export const env = createEnv({
         DB_LINK: z.string().min(1),
         CLERK_SECRET_KEY: z.string().min(1),
         CLERK_WEBHOOK_SECRET: z.string().min(1),
+        ARCJET_KEY: z.string().min(1),
+        STRIPE_PPP_20_COUPON_ID: z.string().min(1),
+        STRIPE_PPP_50_COUPON_ID: z.string().min(1),
     },
     experimental__runtimeEnv: process.env,
 });

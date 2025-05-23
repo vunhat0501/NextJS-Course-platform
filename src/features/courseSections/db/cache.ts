@@ -1,0 +1,1 @@
+export function getCourseSectionCourseTag(id: string) { return `courseSection:${id}`; } 

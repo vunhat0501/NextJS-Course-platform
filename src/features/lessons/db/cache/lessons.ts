@@ -1,0 +1,1 @@
+export function getLessonCourseTag(id: string) { return `lesson:${id}`; } 

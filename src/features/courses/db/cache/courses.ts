@@ -1,0 +1,1 @@
+export function getCourseIdTag(id: string) { return `course:${id}`; } 
