@@ -1,4 +1,4 @@
-import { getGlobalTag, getIdTag, getUserTag } from '@/lib/dataCache';
+import { getCourseTag, getIdTag, getGlobalTag } from '@/lib/dataCache';
 import { revalidateTag } from 'next/cache';
 
 export function getLessonGlobalTag() {
@@ -11,10 +11,10 @@ export function getLessonIdTag(id: string) {
 
 //** cache course section cho 1 course nhat dinh */
 export function getLessonCourseTag(courseId: string) {
-    return getUserTag('lessons', courseId);
+    return getCourseTag('lessons', courseId);
 }
 
-export function revalidateUserCourseAccessCache({
+export function revalidateLessonCache({
     id,
     courseId,
 }: {
@@ -22,6 +22,6 @@ export function revalidateUserCourseAccessCache({
     courseId: string;
 }) {
     revalidateTag(getLessonGlobalTag());
-    revalidateTag(getLessonCourseTag(id));
+    revalidateTag(getLessonIdTag(id));
     revalidateTag(getLessonCourseTag(courseId));
 }

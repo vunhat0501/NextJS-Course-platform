@@ -3,7 +3,7 @@
 import {
     insertCourse,
     updateCourse as updateCourseDb,
-    deleteCourse as deleteCourseDB,
+    deleteCourse as deleteCourseDb,
 } from '@/features/courses/db/courses';
 import {
     canCreateCourses,
@@ -63,7 +63,7 @@ export async function deleteCourse(id: string) {
         return { error: true, message: 'Error while deleting course' };
     }
 
-    await deleteCourseDB(id);
+    await deleteCourseDb(id);
 
     return { error: false, message: 'Course deleted successfully' };
 }
