@@ -1,18 +1,18 @@
 import { UserRole } from '@/drizzle/schema';
 
-export function canCreateCourses({ role }: { role: UserRole | undefined }) {
+export function canCreateLessons({ role }: { role: UserRole | undefined }) {
     if (role === 'admin') {
         return role === 'admin';
     }
 }
 
-export function canUpdateCourses({ role }: { role: UserRole | undefined }) {
+export function canUpdateLessons({ role }: { role: UserRole | undefined }) {
     if (role === 'admin') {
         return role === 'admin';
     }
 }
 
-export function canDeleteCourses({ role }: { role: UserRole | undefined }) {
+export function canDeleteLessons({ role }: { role: UserRole | undefined }) {
     if (role === 'admin') {
         return role === 'admin';
     }
