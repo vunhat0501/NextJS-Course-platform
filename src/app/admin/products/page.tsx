@@ -40,6 +40,7 @@ async function getProducts() {
             priceInDollars: DbProductTable.priceInDollars,
             description: DbProductTable.description,
             image_url: DbProductTable.image_url,
+            slot: DbProductTable.slot,
             coursesCount: countDistinct(CourseProductTable.courseId),
             customersCount: countDistinct(PurchaseTable.userId),
         })
@@ -49,10 +50,6 @@ async function getProducts() {
             eq(PurchaseTable.productId , DbProductTable.id),
         )
         .leftJoin(CourseProductTable, eq(CourseProductTable.productId, DbProductTable.id))
-        .leftJoin(
-            CourseProductTable,
-            eq(CourseProductTable.productId, DbProductTable.id),
-        )
         .orderBy(asc(DbProductTable.name))
         .groupBy(DbProductTable.id);
     //** dung leftjoin de trong truong hop neu course khong co section nao thi se hien 0 thay vi khong hien gi ca */

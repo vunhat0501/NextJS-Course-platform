@@ -54,6 +54,7 @@ async function getProduct(id: string) {
       priceInDollars: true,
       status: true,
       image_url: true,
+      slot: true,
     },
     where: eq(ProductTable.id, id),
     with: { courseProducts: { columns: { courseId: true } } },

@@ -27,6 +27,7 @@ export function ProductTable({
         image_url: string;
         priceInDollars: number;
         status: ProductStatus;
+        slot: number;
         coursesCount: number;
         customersCount: number;
     }[];
@@ -41,6 +42,7 @@ export function ProductTable({
                             plural: 'products',
                         })}
                     </TableHead>
+                    <TableHead>Slot</TableHead>
                     <TableHead>Customers</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
@@ -70,6 +72,7 @@ export function ProductTable({
                 </div>
               </div>
                         </TableCell>
+                        <TableCell>{product.slot}</TableCell>
                         <TableCell>{product.customersCount}</TableCell>
                         <TableCell>
                             <Badge className="inline-flex items-center gap-2">

@@ -37,8 +37,9 @@ export function ProductForm({
     name: string
     description: string
     priceInDollars: number
-    imageUrl: string
+    image_url: string
     status: ProductStatus
+    slot: number
     courseIds: string[]
   }
   courses: {
@@ -54,6 +55,7 @@ export function ProductForm({
       courseIds: [],
       image_url: "",
       priceInDollars: 0,
+      slot: 0,
       status: "private",
     },
   })
@@ -96,6 +98,34 @@ export function ProductForm({
                 <FormLabel>
                   <RequiredLabelIcon />
                   Price
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    {...field}
+                    step={1}
+                    min={0}
+                    onChange={e =>
+                      field.onChange(
+                        isNaN(e.target.valueAsNumber)
+                          ? ""
+                          : e.target.valueAsNumber
+                      )
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="slot"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <RequiredLabelIcon />
+                  Slot
                 </FormLabel>
                 <FormControl>
                   <Input
