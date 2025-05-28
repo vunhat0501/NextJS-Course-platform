@@ -22,11 +22,14 @@ export async function createProduct(unsafeData: z.infer<typeof productSchema>) {
     return { error: true, message: "There was an error creating your product" }
   }
 
+
   await insertProduct({
     ...data,
     image_url: data.imageUrl,
     slot: 0, // Set an appropriate value for slot
   })
+
+
 
   redirect("/admin/products")
 }

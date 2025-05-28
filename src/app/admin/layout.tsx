@@ -19,7 +19,7 @@ function Navbar() {
         <header className="flex shadow bg-background z-10">
             <nav className="flex gap-4 container my-2">
                 <div className="mr-auto flew items-center gap-2">
-                    <Link className="text-lg hover:underline" href="/">
+                    <Link className="text-lg hover:underline" href="/admin">
                         Course Platform
                     </Link>
                     <Badge className="ml-2">Admin</Badge>

@@ -1,3 +1,4 @@
+
 import { and, eq, isNull } from "drizzle-orm"
 import { database } from "@/drizzle/db"
 import { revalidateProductCache } from "./cache"
@@ -29,6 +30,7 @@ export async function userOwnsProduct({
 
   return existingPurchase != null
 }
+
 
 export async function insertProduct(
   data: typeof ProductTable.$inferInsert & { courseIds: string[] }
