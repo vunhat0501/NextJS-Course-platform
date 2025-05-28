@@ -1,7 +1,36 @@
-import { eq } from "drizzle-orm"
+
+import { and, eq, isNull } from "drizzle-orm"
 import { database } from "@/drizzle/db"
 import { revalidateProductCache } from "./cache"
-import { CourseProductTable, ProductTable } from "@/drizzle/schema"
+import {
+  CourseProductTable,
+  ProductTable,
+  PurchaseTable,
+} from "@/drizzle/schema"
+import { cacheTag } from "next/dist/server/use-cache/cache-tag"
+import { getPurchaseUserTag } from "@/features/purchases/db/cache"
+
+export async function userOwnsProduct({
+  userId,
+  productId,
+}: {
+  userId: string
+  productId: string
+}) {
+  "use cache"
+  cacheTag(getPurchaseUserTag(userId))
+
+  const existingPurchase = await database.query.PurchaseTable.findFirst({
+    where: and(
+      eq(PurchaseTable.productId, productId),
+      eq(PurchaseTable.userId, userId),
+      isNull(PurchaseTable.refundedAt)
+    ),
+  })
+
+  return existingPurchase != null
+}
+
 
 export async function insertProduct(
   data: typeof ProductTable.$inferInsert & { courseIds: string[] }
@@ -27,7 +56,7 @@ export async function insertProduct(
 
   return newProduct
 }
-//
+
 export async function updateProduct(
   id: string,
   data: Partial<typeof ProductTable.$inferInsert> & { courseIds: string[] }

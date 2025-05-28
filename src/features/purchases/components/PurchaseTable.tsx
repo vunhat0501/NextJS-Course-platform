@@ -15,7 +15,10 @@ import {
 } from "@/components/ui/table"
 import { formatDate, formatPlural, formatPrice } from "@/lib/formatters"
 import Image from "next/image"
-import { refundPurchase } from "../actions/purchases"
+
+import { refundPurchase } from "../action/purchases"
+
+
 
 export function PurchaseTable({
   purchases,
