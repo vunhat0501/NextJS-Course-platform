@@ -1,104 +1,105 @@
-
-import { and, eq, isNull } from "drizzle-orm"
-import { database } from "@/drizzle/db"
-import { revalidateProductCache } from "./cache"
+import { and, eq, isNull } from 'drizzle-orm';
+import { database } from '@/drizzle/db';
+import { revalidateProductCache } from './cache';
 import {
-  CourseProductTable,
-  ProductTable,
-  PurchaseTable,
-} from "@/drizzle/schema"
-import { cacheTag } from "next/dist/server/use-cache/cache-tag"
-import { getPurchaseUserTag } from "@/features/purchases/db/cache"
+    CourseProductTable,
+    ProductTable,
+    PurchaseTable,
+} from '@/drizzle/schema';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import { getPurchaseUserTag } from '@/features/purchases/db/cache';
 
 export async function userOwnsProduct({
-  userId,
-  productId,
+    userId,
+    productId,
 }: {
-  userId: string
-  productId: string
+    userId: string;
+    productId: string;
 }) {
-  "use cache"
-  cacheTag(getPurchaseUserTag(userId))
+    'use cache';
+    cacheTag(getPurchaseUserTag(userId));
 
-  const existingPurchase = await database.query.PurchaseTable.findFirst({
-    where: and(
-      eq(PurchaseTable.productId, productId),
-      eq(PurchaseTable.userId, userId),
-      isNull(PurchaseTable.refundedAt)
-    ),
-  })
+    const existingPurchase = await database.query.PurchaseTable.findFirst({
+        where: and(
+            eq(PurchaseTable.productId, productId),
+            eq(PurchaseTable.userId, userId),
+            isNull(PurchaseTable.refundedAt),
+        ),
+    });
 
-  return existingPurchase != null
+    return existingPurchase != null;
 }
 
-
 export async function insertProduct(
-  data: typeof ProductTable.$inferInsert & { courseIds: string[] }
+    data: typeof ProductTable.$inferInsert & { courseIds: string[] },
 ) {
-  const newProduct = await database.transaction(async trx => {
-    const [newProduct] = await trx.insert(ProductTable).values(data).returning()
-    if (newProduct == null) {
-      trx.rollback()
-      throw new Error("Failed to create product")
-    }
+    const newProduct = await database.transaction(async (trx) => {
+        const [newProduct] = await trx
+            .insert(ProductTable)
+            .values(data)
+            .returning();
+        if (newProduct == null) {
+            trx.rollback();
+            throw new Error('Failed to create product');
+        }
 
-    await trx.insert(CourseProductTable).values(
-      data.courseIds.map(courseId => ({
-        productId: newProduct.id,
-        courseId,
-      }))
-    )
+        await trx.insert(CourseProductTable).values(
+            data.courseIds.map((courseId) => ({
+                productId: newProduct.id,
+                courseId,
+            })),
+        );
 
-    return newProduct
-  })
+        return newProduct;
+    });
 
-  revalidateProductCache(newProduct.id)
+    revalidateProductCache(newProduct.id);
 
-  return newProduct
+    return newProduct;
 }
 
 export async function updateProduct(
-  id: string,
-  data: Partial<typeof ProductTable.$inferInsert> & { courseIds: string[] }
+    id: string,
+    data: Partial<typeof ProductTable.$inferInsert> & { courseIds: string[] },
 ) {
-  const updatedProduct = await database.transaction(async trx => {
-    const [updatedProduct] = await trx
-      .update(ProductTable)
-      .set(data)
-      .where(eq(ProductTable.id, id))
-      .returning()
-    if (updatedProduct == null) {
-      trx.rollback()
-      throw new Error("Failed to create product")
-    }
+    const updatedProduct = await database.transaction(async (trx) => {
+        const [updatedProduct] = await trx
+            .update(ProductTable)
+            .set(data)
+            .where(eq(ProductTable.id, id))
+            .returning();
+        if (updatedProduct == null) {
+            trx.rollback();
+            throw new Error('Failed to create product');
+        }
 
-    await trx
-      .delete(CourseProductTable)
-      .where(eq(CourseProductTable.productId, updatedProduct.id))
+        await trx
+            .delete(CourseProductTable)
+            .where(eq(CourseProductTable.productId, updatedProduct.id));
 
-    await trx.insert(CourseProductTable).values(
-      data.courseIds.map(courseId => ({
-        productId: updatedProduct.id,
-        courseId,
-      }))
-    )
+        await trx.insert(CourseProductTable).values(
+            data.courseIds.map((courseId) => ({
+                productId: updatedProduct.id,
+                courseId,
+            })),
+        );
 
-    return updatedProduct
-  })
+        return updatedProduct;
+    });
 
-  revalidateProductCache(updatedProduct.id)
+    revalidateProductCache(updatedProduct.id);
 
-  return updatedProduct
+    return updatedProduct;
 }
 
 export async function deleteProduct(id: string) {
-  const [deletedProduct] = await database
-    .delete(ProductTable)
-    .where(eq(ProductTable.id, id))
-    .returning()
-  if (deletedProduct == null) throw new Error("Failed to delete product")
+    const [deletedProduct] = await database
+        .delete(ProductTable)
+        .where(eq(ProductTable.id, id))
+        .returning();
+    if (deletedProduct == null) throw new Error('Failed to delete product');
 
-  revalidateProductCache(deletedProduct.id)
+    revalidateProductCache(deletedProduct.id);
 
-  return deletedProduct
+    return deletedProduct;
 }
