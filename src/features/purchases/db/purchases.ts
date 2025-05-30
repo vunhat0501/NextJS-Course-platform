@@ -16,7 +16,7 @@ export async function insertPurchase(
             productDetails: {
                 name: details.name,
                 description: details.description,
-                imageUrl: details.imageUrl,
+                image_url: details.image_url,
             },
         })
         .onConflictDoNothing()
@@ -42,7 +42,11 @@ export async function updatePurchase(
                 ? {
                       name: details.name,
                       description: details.description,
+<<<<<<< HEAD
                       imageUrl: details.imageUrl,
+=======
+                      image_url: details.image_url,
+>>>>>>> 2a22a4cb2a3531c6560310342c3ab077bd373250
                   }
                 : undefined,
         })

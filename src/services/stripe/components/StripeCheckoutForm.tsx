@@ -15,7 +15,7 @@ export function StripeCheckoutForm({
         priceInDollars: number;
         name: string;
         id: string;
-        imageUrl: string;
+        image_url: string;
         description: string;
     };
     user: {

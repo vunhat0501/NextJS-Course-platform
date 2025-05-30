@@ -8,12 +8,13 @@ export async function getClientSessionSecret(
     product: {
         priceInDollars: number;
         name: string;
-        imageUrl: string;
+        image_url: string;
         description: string;
         id: string;
     },
     user: { email: string; id: string },
 ) {
+    // đoạn làm coupon
     const coupon = await getUserCoupon();
     const discounts = coupon ? [{ coupon: coupon.stripeCouponId }] : undefined;
 
@@ -27,7 +28,11 @@ export async function getClientSessionSecret(
                         name: product.name,
                         images: [
                             new URL(
+<<<<<<< HEAD
                                 product.imageUrl,
+=======
+                                product.image_url,
+>>>>>>> 2a22a4cb2a3531c6560310342c3ab077bd373250
                                 env.NEXT_PUBLIC_SERVER_URL,
                             ).href,
                         ],
