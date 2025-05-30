@@ -10,7 +10,6 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { ProductStatus } from '@/drizzle/schema';
-import { deleteCourse } from '@/features/courses/actions/courses';
 import { formatPlural, formatPrice } from '@/lib/formatters';
 import { EyeIcon, LockIcon, Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
@@ -52,25 +51,27 @@ export function ProductTable({
                 {products.map((product) => (
                     <TableRow key={product.id}>
                         <TableCell>
-                        <div className="flex items-center gap-4">
-                <Image
-                  className="object-cover rounded size-12"
-                  src={product.image_url}
-                  alt={product.name}
-                  width={192}
-                  height={192}
-                />
-                <div className="flex flex-col gap-1">
-                  <div className="font-semibold">{product.name}</div>
-                  <div className="text-muted-foreground">
-                    {formatPlural(product.coursesCount, {
-                      singular: "course",
-                      plural: "courses",
-                    })}{" "}
-                    • {formatPrice(product.priceInDollars)}
-                  </div>
-                </div>
-              </div>
+                            <div className="flex items-center gap-4">
+                                <Image
+                                    className="object-cover rounded size-12"
+                                    src={product.image_url}
+                                    alt={product.name}
+                                    width={192}
+                                    height={192}
+                                />
+                                <div className="flex flex-col gap-1">
+                                    <div className="font-semibold">
+                                        {product.name}
+                                    </div>
+                                    <div className="text-muted-foreground">
+                                        {formatPlural(product.coursesCount, {
+                                            singular: 'course',
+                                            plural: 'courses',
+                                        })}{' '}
+                                        • {formatPrice(product.priceInDollars)}
+                                    </div>
+                                </div>
+                            </div>
                         </TableCell>
                         <TableCell>{product.slot}</TableCell>
                         <TableCell>{product.customersCount}</TableCell>
@@ -82,15 +83,22 @@ export function ProductTable({
                         <TableCell>
                             <div className="flex gap-2">
                                 <Button asChild>
-                                <Link href={`/admin/products/${product.id}/edit`}>Edit</Link>
+                                    <Link
+                                        href={`/admin/products/${product.id}/edit`}
+                                    >
+                                        Edit
+                                    </Link>
                                 </Button>
                                 <ActionButton
-                                variant="destructiveOutline"
-                                requireAreYouSure
-                                action={deleteProduct.bind(null, product.id)}
+                                    variant="destructiveOutline"
+                                    requireAreYouSure
+                                    action={deleteProduct.bind(
+                                        null,
+                                        product.id,
+                                    )}
                                 >
-                                <Trash2Icon />
-                                <span className="sr-only">Delete</span>
+                                    <Trash2Icon />
+                                    <span className="sr-only">Delete</span>
                                 </ActionButton>
                             </div>
                         </TableCell>
@@ -101,10 +109,10 @@ export function ProductTable({
     );
 }
 function getStatusIcon(status: ProductStatus) {
-  const Icon = {
+    const Icon = {
         public: EyeIcon,
         private: LockIcon,
-    }[status]
+    }[status];
 
-  return <Icon className="size-4" />
+    return <Icon className="size-4" />;
 }
