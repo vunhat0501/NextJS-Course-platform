@@ -14,6 +14,7 @@ export async function getClientSessionSecret(
     },
     user: { email: string; id: string },
 ) {
+    // đoạn làm coupon
     const coupon = await getUserCoupon();
     const discounts = coupon ? [{ coupon: coupon.stripeCouponId }] : undefined;
 

@@ -1,0 +1,129 @@
+import { env } from '@/data/env/server';
+import { database } from '@/drizzle/db';
+import { ProductTable, UserTable } from '@/drizzle/schema';
+import { addUserCourseAccess } from '@/features/courses/db/userCourseAccess';
+import { insertPurchase } from '@/features/purchases/db/purchases';
+import { stripeServerClient } from '@/services/stripe/stripeServer';
+import { eq } from 'drizzle-orm';
+import { redirect } from 'next/navigation';
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+
+export async function GET(request: NextRequest) {
+    const stripeSessionId = request.nextUrl.searchParams.get('stripeSessionId');
+    if (stripeSessionId == null) redirect('/products/purchase-failure');
+
+    let redirectUrl: string;
+    try {
+        const checkoutSession =
+            await stripeServerClient.checkout.sessions.retrieve(
+                stripeSessionId,
+                { expand: ['line_items'] },
+            );
+        const productId = await processStripeCheckout(checkoutSession);
+
+        redirectUrl = `/products/${productId}/purchase/success`;
+    } catch {
+        redirectUrl = '/products/purchase-failure';
+    }
+
+    return NextResponse.redirect(new URL(redirectUrl, request.url));
+}
+
+export async function POST(request: NextRequest) {
+    const event = await stripeServerClient.webhooks.constructEvent(
+        await request.text(),
+        request.headers.get('stripe-signature') as string,
+        env.STRIPE_WEBHOOK_SECRET,
+    );
+
+    switch (event.type) {
+        case 'checkout.session.completed':
+        case 'checkout.session.async_payment_succeeded': {
+            try {
+                await processStripeCheckout(event.data.object);
+            } catch {
+                return new Response(null, { status: 500 });
+            }
+        }
+    }
+    return new Response(null, { status: 200 });
+}
+
+async function processStripeCheckout(checkoutSession: Stripe.Checkout.Session) {
+    const userId = checkoutSession.metadata?.userId;
+    const productId = checkoutSession.metadata?.productId;
+
+    if (userId == null || productId == null) {
+        throw new Error('Missing metadata');
+    }
+
+    const [product, user] = await Promise.all([
+        getProduct(productId),
+        await getUser(userId),
+    ]);
+
+    if (product == null) throw new Error('Product not found');
+    if (user == null) throw new Error('User not found');
+
+    const courseIds = product.courseProducts.map((cp) => cp.courseId);
+    database.transaction(async (trx) => {
+        try {
+            await addUserCourseAccess({ userId: user.id, courseIds }, trx);
+            await insertPurchase(
+                {
+                    stripeSessionId: checkoutSession.id,
+                    pricePaidInCents:
+                        checkoutSession.amount_total ||
+                        product.priceInDollars * 100,
+                    productDetails: product,
+                    userId: user.id,
+                    productId,
+                },
+                trx,
+            );
+            const currentProduct = await trx.query.ProductTable.findFirst({
+                columns: { slot: true },
+                where: eq(ProductTable.id, productId),
+            });
+
+            if (currentProduct?.slot != null && currentProduct.slot > 0) {
+                await trx
+                    .update(ProductTable)
+                    .set({ slot: currentProduct.slot - 1 })
+                    .where(eq(ProductTable.id, productId));
+            } else {
+                // Optional: throw error nếu slot đã hết
+                throw new Error('Product is out of stock');
+            }
+        } catch (error) {
+            trx.rollback();
+            throw error;
+        }
+    });
+
+    return productId;
+}
+
+function getProduct(id: string) {
+    return database.query.ProductTable.findFirst({
+        columns: {
+            id: true,
+            priceInDollars: true,
+            name: true,
+            description: true,
+            image_url: true,
+        },
+        where: eq(ProductTable.id, id),
+        with: {
+            courseProducts: { columns: { courseId: true } },
+        },
+    });
+}
+
+function getUser(id: string) {
+    return database.query.UserTable.findFirst({
+        columns: { id: true },
+        where: eq(UserTable.id, id),
+    });
+}
