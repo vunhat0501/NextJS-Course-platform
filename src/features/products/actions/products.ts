@@ -1,60 +1,63 @@
-"use server"
+'use server';
 
-import { z } from "zod"
+import { z } from 'zod';
 import {
-  insertProduct,
-  updateProduct as updateProductDb,
-  deleteProduct as deleteProductDb,
-} from "@/features/products/db/products"
-import { redirect } from "next/navigation"
+    insertProduct,
+    updateProduct as updateProductDb,
+    deleteProduct as deleteProductDb,
+} from '@/features/products/db/products';
+import { redirect } from 'next/navigation';
 import {
-  canCreateProducts,
-  canDeleteProducts,
-  canUpdateProducts,
-} from "../permissions/products"
-import { getCurrentUser } from "@/services/clerk"
-import { productSchema } from "../schema/products"
+    canCreateProducts,
+    canDeleteProducts,
+    canUpdateProducts,
+} from '../permissions/products';
+import { getCurrentUser } from '@/services/clerk';
+import { productSchema } from '../schema/products';
 
 export async function createProduct(unsafeData: z.infer<typeof productSchema>) {
-  const { success, data } = productSchema.safeParse(unsafeData)
+    const { success, data } = productSchema.safeParse(unsafeData);
 
-  if (!success || !canCreateProducts(await getCurrentUser())) {
-    return { error: true, message: "There was an error creating your product" }
-  }
+    if (!success || !canCreateProducts(await getCurrentUser())) {
+        return {
+            error: true,
+            message: 'There was an error creating your product',
+        };
+    }
 
+    await insertProduct({
+        ...data,
+        image_url: data.image_url,
+        slot: 0, // Set an appropriate value for slot
+    });
 
-  await insertProduct({
-    ...data,
-    image_url: data.imageUrl,
-    slot: 0, // Set an appropriate value for slot
-  })
-
-
-
-  redirect("/admin/products")
+    redirect('/admin/products');
 }
 
 export async function updateProduct(
-  id: string,
-  unsafeData: z.infer<typeof productSchema>
+    id: string,
+    unsafeData: z.infer<typeof productSchema>,
 ) {
-  const { success, data } = productSchema.safeParse(unsafeData)
+    const { success, data } = productSchema.safeParse(unsafeData);
 
-  if (!success || !canUpdateProducts(await getCurrentUser())) {
-    return { error: true, message: "There was an error updating your product" }
-  }
+    if (!success || !canUpdateProducts(await getCurrentUser())) {
+        return {
+            error: true,
+            message: 'There was an error updating your product',
+        };
+    }
 
-  await updateProductDb(id, data)
+    await updateProductDb(id, data);
 
-  redirect("/admin/products")
+    redirect('/admin/products');
 }
 
 export async function deleteProduct(id: string) {
-  if (!canDeleteProducts(await getCurrentUser())) {
-    return { error: true, message: "Error deleting your product" }
-  }
+    if (!canDeleteProducts(await getCurrentUser())) {
+        return { error: true, message: 'Error deleting your product' };
+    }
 
-  await deleteProductDb(id)
+    await deleteProductDb(id);
 
-  return { error: false, message: "Successfully deleted your product" }
+    return { error: false, message: 'Successfully deleted your product' };
 }
