@@ -71,13 +71,13 @@ export async function POST(req: Request) {
                 );
             }
             //** de khong chay het ca code */
-            break;
+            return new Response('ok');
         }
         case 'user.deleted': {
             if (event.data.id != null) {
                 await deleteUser({ clerkUserId: event.data.id });
             }
-            break;
+            return new Response('ok');
         }
     }
 
