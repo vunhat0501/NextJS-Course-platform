@@ -81,5 +81,5 @@ export async function POST(req: Request) {
         }
     }
 
-    return new Response('Unhandled event type', { status: 400 });
+    return new Response('', { status: 200 });
 }
