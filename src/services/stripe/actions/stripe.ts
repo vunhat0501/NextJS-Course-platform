@@ -28,11 +28,7 @@ export async function getClientSessionSecret(
                         name: product.name,
                         images: [
                             new URL(
-<<<<<<< HEAD
-                                product.imageUrl,
-=======
                                 product.image_url,
->>>>>>> 2a22a4cb2a3531c6560310342c3ab077bd373250
                                 env.NEXT_PUBLIC_SERVER_URL,
                             ).href,
                         ],
