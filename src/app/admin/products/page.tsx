@@ -10,27 +10,26 @@ import {
 } from '@/drizzle/schema';
 import { asc, countDistinct, eq } from 'drizzle-orm';
 import { getProductGlobalTag } from '@/features/products/db/cache';
-import { ProductTable } from "@/features/products/components/ProductTable"
+import { ProductTable } from '@/features/products/components/ProductTable';
 export default async function ProductsPage() {
-  const products = await getProducts()
+    const products = await getProducts();
 
-  return (
-    <div className="container my-6">
-      <PageHeader title="Products">
-        <Button asChild>
-          <Link href="/admin/products/new">New Product</Link>
-        </Button>
-      </PageHeader>
+    return (
+        <div className="container my-6">
+            <PageHeader title="Products">
+                <Button asChild>
+                    <Link href="/admin/products/new">New Product</Link>
+                </Button>
+            </PageHeader>
 
-      <ProductTable products={products} />
-    </div>
-  )
+            <ProductTable products={products} />
+        </div>
+    );
 }
 
 async function getProducts() {
     'use cache';
-    cacheTag(
-        getProductGlobalTag())
+    cacheTag(getProductGlobalTag());
 
     return database
         .select({
@@ -45,11 +44,11 @@ async function getProducts() {
             customersCount: countDistinct(PurchaseTable.userId),
         })
         .from(DbProductTable)
+        .leftJoin(PurchaseTable, eq(PurchaseTable.productId, DbProductTable.id))
         .leftJoin(
-            PurchaseTable,
-            eq(PurchaseTable.productId , DbProductTable.id),
+            CourseProductTable,
+            eq(CourseProductTable.productId, DbProductTable.id),
         )
-        .leftJoin(CourseProductTable, eq(CourseProductTable.productId, DbProductTable.id))
         .orderBy(asc(DbProductTable.name))
         .groupBy(DbProductTable.id);
     //** dung leftjoin de trong truong hop neu course khong co section nao thi se hien 0 thay vi khong hien gi ca */
