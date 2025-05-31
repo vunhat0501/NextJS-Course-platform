@@ -4,24 +4,11 @@ import { getUserIdTag } from '@/features/users/db/cache';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
-import { redirect } from 'next/navigation';
 
 const client = await clerkClient();
 
-export async function getCurrentUser({
-    allData = false,
-    redirectTo,
-}: { allData?: boolean; redirectTo?: string } = {}) {
+export async function getCurrentUser({ allData = false } = {}) {
     const { userId, sessionClaims, redirectToSignIn } = await auth();
-
-    //** chuyen huong user den api
-    // tao tk
-    // revalidate cache */
-    if (userId != null && sessionClaims.dbId == null) {
-        // redirect('/api/clerk/syncUsers');
-        const target = encodeURIComponent(redirectTo ?? '/');
-        redirect(`/sync-users?redirectTo=${target}`);
-    }
 
     return {
         clerkUserId: userId,
