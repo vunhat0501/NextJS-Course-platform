@@ -23,7 +23,7 @@ import { getCourseIdTag } from '@/features/courses/db/cache/courses';
 import { getCourseSectionCourseTag } from '@/features/courseSections/db/cache';
 import { wherePublicCourseSections } from '@/features/courseSections/permissions/sections';
 import { getLessonCourseTag } from '@/features/lessons/db/cache/lessons';
-import { WherePublicLessons } from '@/features/lessons/permissions/lessons';
+import { wherePublicLessons } from '@/features/lessons/permissions/lessons';
 import { getProductIdTag } from '@/features/products/db/cache';
 import { userOwnsProduct } from '@/features/products/db/products';
 import { wherePublicProducts } from '@/features/products/permissions/products';
@@ -242,7 +242,7 @@ async function getPublicProduct(id: string) {
                                             name: true,
                                             status: true,
                                         },
-                                        where: WherePublicLessons,
+                                        where: wherePublicLessons,
                                         orderBy: asc(LessonTable.order),
                                     },
                                 },

@@ -27,7 +27,7 @@ export function UserPurchaseTable({
         refundedAt: Date | null;
         productDetails: {
             name: string;
-            imageUrl: string;
+            image_url: string;
         };
     }[];
 }) {
@@ -47,7 +47,7 @@ export function UserPurchaseTable({
                             <div className="flex items-center gap-4">
                                 <Image
                                     className="object-cover rounded size-12"
-                                    src={purchase.productDetails.imageUrl}
+                                    src={purchase.productDetails.image_url}
                                     alt={purchase.productDetails.name}
                                     width={192}
                                     height={192}
