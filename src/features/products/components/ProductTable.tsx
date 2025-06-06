@@ -52,7 +52,7 @@ export function ProductTable({
                     <TableRow key={product.id}>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Image
+                                <img
                                     className="object-cover rounded size-12"
                                     src={product.image_url}
                                     alt={product.name}

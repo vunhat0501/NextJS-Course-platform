@@ -45,7 +45,7 @@ export function UserPurchaseTable({
                     <TableRow key={purchase.id}>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Image
+                                <img
                                     className="object-cover rounded size-12"
                                     src={purchase.productDetails.image_url}
                                     alt={purchase.productDetails.name}

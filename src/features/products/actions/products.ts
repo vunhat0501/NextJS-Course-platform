@@ -28,7 +28,7 @@ export async function createProduct(unsafeData: z.infer<typeof productSchema>) {
     await insertProduct({
         ...data,
         image_url: data.image_url,
-        slot: 0, // Set an appropriate value for slot
+        // slot: 0, // Set an appropriate value for slot
     });
 
     redirect('/admin/products');

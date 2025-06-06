@@ -36,11 +36,10 @@ export default async function ProductPurchaseSuccessPage({
                     </Button>
                 </div>
                 <div className="relative aspect-video max-w-lg flex-grow">
-                    <Image
+                    <img
                         src={product.image_url}
                         alt={product.name}
-                        fill
-                        className="object-contain rounded-xl"
+                        className="absolute inset-0 h-full w-full object-contain rounded-xl"
                     />
                 </div>
             </div>
