@@ -14,7 +14,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate, formatPlural, formatPrice } from '@/lib/formatters';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 import { refundPurchase } from '../action/purchases';
 
@@ -56,7 +56,7 @@ export function PurchaseTable({
                     <TableRow key={purchase.id}>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Image
+                                <img
                                     className="object-cover rounded size-12"
                                     src={purchase.productDetails.image_url}
                                     alt={purchase.productDetails.name}

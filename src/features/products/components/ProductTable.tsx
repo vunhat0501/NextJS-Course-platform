@@ -12,7 +12,7 @@ import {
 import { ProductStatus } from '@/drizzle/schema';
 import { formatPlural, formatPrice } from '@/lib/formatters';
 import { EyeIcon, LockIcon, Trash2Icon } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { deleteProduct } from '../actions/products';
 
