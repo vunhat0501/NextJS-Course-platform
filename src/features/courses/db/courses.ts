@@ -1,6 +1,6 @@
 import { database } from '@/drizzle/db';
 import { CourseTable } from '@/drizzle/schema';
-import { revalidateCourseCache } from './cache/courses';
+import { revalidateCourseCache } from './cache/revalidateCourseCache';
 import { eq } from 'drizzle-orm';
 
 export async function insertCourse(data: typeof CourseTable.$inferInsert) {

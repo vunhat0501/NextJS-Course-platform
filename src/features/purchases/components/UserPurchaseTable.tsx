@@ -1,3 +1,5 @@
+'use client';
+import { useState, useRef } from 'react';
 import {
     SkeletonArray,
     SkeletonButton,
@@ -14,7 +16,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate, formatPrice } from '@/lib/formatters';
-import Image from 'next/image';
+//import Image from 'next/image';
 import Link from 'next/link';
 
 export function UserPurchaseTable({
@@ -45,7 +47,7 @@ export function UserPurchaseTable({
                     <TableRow key={purchase.id}>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Image
+                                <img
                                     className="object-cover rounded size-12"
                                     src={purchase.productDetails.image_url}
                                     alt={purchase.productDetails.name}
@@ -115,5 +117,42 @@ export function UserPurchaseTableSkeleton() {
                 </SkeletonArray>
             </TableBody>
         </Table>
+    );
+}
+
+export function UserPurchaseTableWithSearch({ purchases }: { purchases: any[] }) {
+    const [search, setSearch] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+    const filtered = purchases.filter(p =>
+        p.productDetails.name.toLowerCase().includes(search.toLowerCase())
+    );
+    return (
+        <>
+            <div className="mb-4 flex gap-2">
+                <input
+                    ref={inputRef}
+                    style={{
+                        border: '1px solid #ccc',
+                        borderRadius: 6,
+                        padding: '8px 12px',
+                        width: '100%',
+                        maxWidth: 400,
+                        fontSize: 16,
+                        marginBottom: 8,
+                    }}
+                    type="text"
+                    placeholder="Search purchases by product name..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+                {search && (
+                    <button
+                        className="border px-3 py-1 rounded"
+                        onClick={() => { setSearch(''); inputRef.current?.focus(); }}
+                    >Clear</button>
+                )}
+            </div>
+            <UserPurchaseTable purchases={filtered} />
+        </>
     );
 }

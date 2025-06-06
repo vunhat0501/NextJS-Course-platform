@@ -12,7 +12,7 @@ import {
 import { ProductStatus } from '@/drizzle/schema';
 import { formatPlural, formatPrice } from '@/lib/formatters';
 import { EyeIcon, LockIcon, Trash2Icon } from 'lucide-react';
-import Image from 'next/image';
+//import Image from 'next/image';
 import Link from 'next/link';
 import { deleteProduct } from '../actions/products';
 
@@ -52,7 +52,7 @@ export function ProductTable({
                     <TableRow key={product.id}>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Image
+                                <img
                                     className="object-cover rounded size-12"
                                     src={product.image_url}
                                     alt={product.name}

@@ -4,7 +4,7 @@ import {
     PurchaseTable,
     UserCourseAccessTable,
 } from '@/drizzle/schema';
-import { revalidateUserCourseAccessCache } from './cache/userCourseAccess';
+import { revalidateUserCourseAccessCache } from './cache/revalidateUserCourseAccessCache';
 import { and, eq, inArray, isNull } from 'drizzle-orm';
 
 export async function addUserCourseAccess(

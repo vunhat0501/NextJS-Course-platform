@@ -34,7 +34,7 @@ import { and, asc, eq } from 'drizzle-orm';
 import { VideoIcon } from 'lucide-react';
 import Link from 'next/link';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
-import Image from 'next/image';
+//import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -104,9 +104,9 @@ export default async function ProductPage({
                 </div>
 
                 <div className="relative aspect-video max-w-lg flex-grow">
-                    <Image
+                    <img
                         src={product.image_url}
-                        fill
+                        //fill
                         alt={product.name}
                         className="object-contain rounded-xl"
                     />

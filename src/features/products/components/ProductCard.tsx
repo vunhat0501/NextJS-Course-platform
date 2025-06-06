@@ -8,8 +8,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { formatPrice } from '@/lib/formatters';
-import { getUserCoupon } from '@/lib/userCountryHeader';
-import Image from 'next/image';
+//import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -19,28 +18,28 @@ export function ProductCard({
     name,
     priceInDollars,
     description,
+    coupon,
 }: {
     id: string;
     imageUrl: string;
     name: string;
     priceInDollars: number;
     description: string;
+    coupon?: { discountPercentage: number } | null;
 }) {
     return (
         <Card className="overflow-hidden flex flex-col w-full max-w-[500px] mx-auto">
             <div className="relative aspect-video w-full">
-                <Image
+                <img
                     src={imageUrl}
                     alt={name}
-                    fill
+                    //fill
                     className="object-cover"
                 />
             </div>
             <CardHeader className="space-y-0">
                 <CardDescription>
-                    <Suspense fallback={formatPrice(priceInDollars)}>
-                        <Price price={priceInDollars} />
-                    </Suspense>
+                    <Price price={priceInDollars} coupon={coupon} />
                 </CardDescription>
                 <CardTitle className="text-xl">{name}</CardTitle>
             </CardHeader>
@@ -56,12 +55,10 @@ export function ProductCard({
     );
 }
 
-async function Price({ price }: { price: number }) {
-    const coupon = await getUserCoupon();
-    if (price === 0 || coupon == null) {
-        return formatPrice(price);
+function Price({ price, coupon }: { price: number; coupon?: { discountPercentage: number } | null }) {
+    if (price === 0 || !coupon) {
+        return <>{formatPrice(price)}</>;
     }
-
     return (
         <div className="flex gap-2 items-baseline">
             <div className="line-through text-xs opacity-50">

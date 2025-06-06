@@ -35,26 +35,31 @@ import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { Suspense } from "react"
 
-export default function CoursesPage() {
+import SearchBar from './SearchBar';
+import CourseListClient from "./CourseListClient";
+import { getUserCourses } from '@/features/courses/db/getUserCourses';
+
+type UserCourse = {
+  id: string;
+  name: string;
+  tags: string[];
+  description: string;
+};
+
+export default async function CoursesPage() {
+  const { userId, redirectToSignIn } = await getCurrentUser();
+  if (!userId) return redirectToSignIn();
+
+  const courses = await getUserCourses(userId);
+
   return (
     <div className="container my-6">
       <PageHeader title="My Courses" />
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <Suspense
-          fallback={
-            <SkeletonArray amount={3}>
-              <SkeletonCourseCard />
-            </SkeletonArray>
-          }
-        >
-          <CourseGrid />
-        </Suspense>
-      </div>
+      <CourseListClient courses={courses} />
     </div>
-  )
+  );
 }
-
-async function CourseGrid() {
+async function CourseGrid({ filter }: { filter: string }) {
   const { userId, redirectToSignIn } = await getCurrentUser()
   if (userId == null) return redirectToSignIn()
 
@@ -71,7 +76,12 @@ async function CourseGrid() {
     )
   }
 
-  return courses.map(course => (
+  const filteredCourses = courses.filter((course: any) =>
+    course.name.toLowerCase().includes(filter.toLowerCase()) ||
+    (Array.isArray(course.tags) ? course.tags.some((tag: string) => tag.toLowerCase().includes(filter.toLowerCase())) : false)
+  )
+
+  return filteredCourses.map((course: any) => (
     <Card key={course.id} className="overflow-hidden flex flex-col">
       <CardHeader>
         <CardTitle>{course.name}</CardTitle>
@@ -125,60 +135,4 @@ function SkeletonCourseCard() {
       </CardFooter>
     </Card>
   )
-}
-
-async function getUserCourses(userId: string) {
-  "use cache"
-  cacheTag(
-    getUserCourseAccessUserTag(userId),
-    getUserLessonCompleteUserTag(userId)
-  )
-
-  const courses = await database
-    .select({
-      id: CourseTable.id,
-      name: CourseTable.name,
-      description: CourseTable.description,
-      sectionsCount: countDistinct(CourseSectionTable.id),
-      lessonsCount: countDistinct(LessonTable.id),
-      lessonsComplete: countDistinct(UserLessonCompleteTable.lessonId),
-    })
-    .from(CourseTable)
-    .leftJoin(
-      UserCourseAccessTable,
-      and(
-        eq(UserCourseAccessTable.courseId, CourseTable.id),
-        eq(UserCourseAccessTable.userId, userId)
-      )
-    )
-    .leftJoin(
-      CourseSectionTable,
-      and(
-        eq(CourseSectionTable.courseId, CourseTable.id),
-        wherePublicCourseSections
-      )
-    )
-    .leftJoin(
-      LessonTable,
-      and(eq(LessonTable.sectionId, CourseSectionTable.id), wherePublicLessons)
-    )
-    .leftJoin(
-      UserLessonCompleteTable,
-      and(
-        eq(UserLessonCompleteTable.lessonId, LessonTable.id),
-        eq(UserLessonCompleteTable.userId, userId)
-      )
-    )
-    .orderBy(CourseTable.name)
-    .groupBy(CourseTable.id)
-
-  courses.forEach(course => {
-    cacheTag(
-      getCourseIdTag(course.id),
-      getCourseSectionCourseTag(course.id),
-      getLessonCourseTag(course.id)
-    )
-  })
-
-  return courses
 }

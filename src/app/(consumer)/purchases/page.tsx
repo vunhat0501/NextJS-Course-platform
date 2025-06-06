@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { database } from "@/drizzle/db"
 import { PurchaseTable } from "@/drizzle/schema"
 import {
-  UserPurchaseTable,
+  UserPurchaseTableWithSearch,
   UserPurchaseTableSkeleton,
 } from "@/features/purchases/components/UserPurchaseTable"
 import { getPurchaseUserTag } from "@/features/purchases/db/cache"
@@ -41,7 +41,7 @@ async function SuspenseBoundary() {
     )
   }
 
-  return <UserPurchaseTable purchases={purchases} />
+  return <UserPurchaseTableWithSearch purchases={purchases} />
 }
 
 async function getPurchases(userId: string) {
