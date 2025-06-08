@@ -1,6 +1,6 @@
 import { database } from '@/drizzle/db';
 import { CourseSectionTable, LessonTable } from '@/drizzle/schema';
-import { revalidateLessonCache } from '@/features/lessons/db/cache/lessons';
+import { revalidateLessonCache } from '@/features/lessons/db/cache/revalidateLessonCache.server';
 import { eq } from 'drizzle-orm';
 
 export async function getNextCourseLessonOrder(sectionId: string) {
