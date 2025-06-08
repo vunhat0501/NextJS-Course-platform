@@ -29,6 +29,7 @@ async function getPublicProducts() {
             description: true,
             priceInDollars: true,
             image_url: true,
+            slot: true,
         },
         where: wherePublicProducts,
         orderBy: asc(ProductTable.name),
