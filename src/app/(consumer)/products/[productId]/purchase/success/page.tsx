@@ -5,7 +5,7 @@ import { getProductIdTag } from '@/features/products/db/cache';
 import { wherePublicProducts } from '@/features/products/permissions/products';
 import { and, eq } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function ProductPurchaseSuccessPage({
@@ -36,11 +36,10 @@ export default async function ProductPurchaseSuccessPage({
                     </Button>
                 </div>
                 <div className="relative aspect-video max-w-lg flex-grow">
-                    <Image
+                    <img
                         src={product.image_url}
                         alt={product.name}
-                        fill
-                        className="object-contain rounded-xl"
+                        className="absolute inset-0 h-full w-full object-contain rounded-xl"
                     />
                 </div>
             </div>

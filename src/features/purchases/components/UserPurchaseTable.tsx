@@ -120,11 +120,16 @@ export function UserPurchaseTableSkeleton() {
     );
 }
 
-export function UserPurchaseTableWithSearch({ purchases }: { purchases: any[] }) {
+export function UserPurchaseTableWithSearch({
+    purchases,
+}: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    purchases: any[];
+}) {
     const [search, setSearch] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
-    const filtered = purchases.filter(p =>
-        p.productDetails.name.toLowerCase().includes(search.toLowerCase())
+    const filtered = purchases.filter((p) =>
+        p.productDetails.name.toLowerCase().includes(search.toLowerCase()),
     );
     return (
         <>
@@ -143,13 +148,18 @@ export function UserPurchaseTableWithSearch({ purchases }: { purchases: any[] })
                     type="text"
                     placeholder="Search purchases by product name..."
                     value={search}
-                    onChange={e => setSearch(e.target.value)}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
                 {search && (
                     <button
                         className="border px-3 py-1 rounded"
-                        onClick={() => { setSearch(''); inputRef.current?.focus(); }}
-                    >Clear</button>
+                        onClick={() => {
+                            setSearch('');
+                            inputRef.current?.focus();
+                        }}
+                    >
+                        Clear
+                    </button>
                 )}
             </div>
             <UserPurchaseTable purchases={filtered} />
