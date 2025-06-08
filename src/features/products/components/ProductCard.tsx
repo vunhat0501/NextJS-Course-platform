@@ -10,7 +10,6 @@ import {
 import { formatPrice } from '@/lib/formatters';
 //import Image from 'next/image';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 export function ProductCard({
     id,

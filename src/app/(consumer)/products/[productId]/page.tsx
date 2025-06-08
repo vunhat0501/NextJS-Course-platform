@@ -108,7 +108,7 @@ export default async function ProductPage({
                         src={product.image_url}
                         //fill
                         alt={product.name}
-                        className="object-contain rounded-xl"
+                        className="absolute inset-0 h-full w-full object-contain rounded-xl"
                     />
                 </div>
             </div>
