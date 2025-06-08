@@ -46,34 +46,31 @@ export default function CoursesPage() {
     );
 
     return (
-        <div className="container my-6">
-            <PageHeader title="Courses">
-                <Button asChild>
-                    <Link href="/admin/courses/new">New Course</Link>
-                </Button>
-            </PageHeader>
-            <div className="mb-4 flex gap-2">
-                <input
-                    ref={inputRef}
-                    style={{
-                        border: '1px solid #ccc',
-                        borderRadius: 6,
-                        padding: '8px 12px',
-                        width: '100%',
-                        maxWidth: 400,
-                        fontSize: 16,
-                        marginBottom: 8,
-                    }}
-                    type="text"
-                    placeholder="Search courses by name or tag..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                />
-                {search && (
-                    <Button variant="outline" onClick={() => { setSearch(''); inputRef.current?.focus(); }}>Clear</Button>
-                )}
+        <div className="w-full flex flex-col items-center py-8 bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
+            <div className="w-full max-w-5xl">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+                    <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight drop-shadow-lg">Courses</h1>
+                    <Button asChild className="px-6 py-3 text-lg font-bold rounded-xl shadow-md">
+                        <Link href="/admin/courses/new">New Course</Link>
+                    </Button>
+                </div>
+                <div className="mb-6 flex gap-2 items-center justify-center">
+                    <input
+                        ref={inputRef}
+                        className="border border-gray-300 rounded-lg px-4 py-2 w-full max-w-md text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none shadow-sm"
+                        type="text"
+                        placeholder="Search courses by name or tag..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                    {search && (
+                        <Button variant="outline" onClick={() => { setSearch(''); inputRef.current?.focus(); }}>Clear</Button>
+                    )}
+                </div>
+                <div className="bg-white rounded-3xl shadow-2xl p-8">
+                    <CourseTable courses={displayCourses} />
+                </div>
             </div>
-            <CourseTable courses={displayCourses} />
         </div>
     );
 }

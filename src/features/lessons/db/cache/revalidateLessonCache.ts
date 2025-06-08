@@ -2,7 +2,7 @@
 import { revalidateTag } from 'next/cache';
 import { getLessonGlobalTag, getLessonIdTag, getLessonCourseTag } from './lessons';
 
-export function revalidateLessonCache({
+export async function revalidateLessonCache({
     id,
     courseId,
 }: {
