@@ -20,7 +20,7 @@ export default function PurchasesPerUserDashboard({ purchasesPerUserData, averag
             <BarChart data={purchasesPerUserData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey={purchasesPerUserData[0]?.userName ? 'userName' : 'user'} />
-              <YAxis allowDecimals={false} />
+              <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 2.0))]} allowDecimals={false} />
               <Tooltip />
               <Legend />
               <Bar dataKey="purchases" fill="#a259ec" name="Purchases" />

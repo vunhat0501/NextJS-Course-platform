@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, LabelList } from 'recharts';
 import { useRouter } from 'next/navigation';
 
 const PIE_COLORS = ['#ff7875', '#36cfc9'];
@@ -25,9 +25,11 @@ export default function RefundSalesDashboard({ refundData, totalRefunds, totalSa
               <LineChart data={refundData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
+                <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 250.0))]} />
                 <Tooltip />
-                <Line type="monotone" dataKey="refunded" stroke="#ff7875" strokeWidth={3} dot={{ r: 6 }} />
+                <Line type="monotone" dataKey="refunded" stroke="#ff7875" strokeWidth={3} dot={{ r: 6 }}>
+                  <LabelList dataKey="refunded" position="top" formatter={(value: number) => `$${value}`} />
+                </Line>
               </LineChart>
             </ResponsiveContainer>
           </div>

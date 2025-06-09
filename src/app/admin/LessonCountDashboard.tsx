@@ -22,7 +22,7 @@ export default function LessonCountDashboard({ totalLessons, statusStats }: { to
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
+              <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 2.0))]} allowDecimals={false} />
               <Tooltip />
               <Legend />
               <Bar dataKey="count" fill="#ffa940" name="Total Lessons" />

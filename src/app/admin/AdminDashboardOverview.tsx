@@ -40,8 +40,8 @@ export default function AdminDashboardOverview({
               onClick={cardLinks[card.title] ? () => router.push(cardLinks[card.title] as string) : undefined}
             >
               <span className="text-4xl mb-2">{card.icon}</span>
-              <div className="text-xl text-white/90 font-semibold mb-1">{card.title}</div>
-              <div className="font-extrabold text-4xl drop-shadow-lg">{card.value}</div>
+              <div className="text-xl text-white/90 font-semibold mb-1 text-center w-full">{card.title}</div>
+              <div className="font-extrabold text-4xl drop-shadow-lg text-center w-full">{card.value}</div>
             </div>
           ))}
         </div>
@@ -53,7 +53,7 @@ export default function AdminDashboardOverview({
                 <LineChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis />
+                  <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 20.0))]} />
                   <Tooltip />
                   <Line type="monotone" dataKey="revenue" stroke="#8884d8" strokeWidth={2} />
                 </LineChart>
@@ -67,7 +67,7 @@ export default function AdminDashboardOverview({
                 <LineChart data={newStudentsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis />
+                  <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 5.0))]} />
                   <Tooltip />
                   <Line type="monotone" dataKey="students" stroke="#00b894" strokeWidth={2} />
                 </LineChart>
@@ -99,7 +99,7 @@ export default function AdminDashboardOverview({
                 <BarChart data={topProducts}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 2.0))]} />
                   <Tooltip />
                   <Legend />
                   <Bar dataKey="count" fill="#36cfc9" name="Sales Count" />
@@ -115,7 +115,7 @@ export default function AdminDashboardOverview({
               <BarChart data={topCourses}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis />
+                <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 2.0))]} />
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="count" fill="#a259ec" name="Sales Count" />

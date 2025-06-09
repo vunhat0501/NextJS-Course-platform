@@ -45,6 +45,8 @@ export default function HomeProductListClient({ products, coupon }: { products: 
             priceInDollars={product.priceInDollars}
             imageUrl={product.image_url}
             coupon={coupon}
+            slot={product.slot}
+            purchaseCount={product.purchaseCount}
           />
         ))}
       </div>

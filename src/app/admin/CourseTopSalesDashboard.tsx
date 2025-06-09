@@ -15,7 +15,7 @@ export default function CourseTopSalesDashboard({ topCourses }: { topCourses: { 
           <BarChart data={topCourses}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 2.0))]} />
             <Tooltip />
             <Legend />
             <Bar dataKey="count" fill="#a259ec" name="Purchases" />

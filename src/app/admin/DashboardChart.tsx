@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
 
 export default function DashboardChart({ revenueData }: { revenueData: any[] }) {
   return (
@@ -9,9 +9,11 @@ export default function DashboardChart({ revenueData }: { revenueData: any[] }) 
         <LineChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="month" />
-          <YAxis />
+          <YAxis domain={[0, (dataMax: number) => Math.max(10, Math.ceil(dataMax * 100.0))]} />
           <Tooltip />
-          <Line type="monotone" dataKey="revenue" stroke="#8884d8" strokeWidth={2} />
+          <Line type="monotone" dataKey="revenue" stroke="#8884d8" strokeWidth={2}>
+            <LabelList dataKey="revenue" position="top" formatter={(value: number) => `$${value}`} />
+          </Line>
         </LineChart>
       </ResponsiveContainer>
     </div>

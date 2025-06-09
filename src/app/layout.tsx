@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import GlobalLoadingProvider from '@/components/GlobalLoadingProvider';
 
 export const metadata: Metadata = {
     title: 'Course Platform',
@@ -16,6 +17,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="antialiased">
+                <GlobalLoadingProvider />
                 <ClerkProvider>
                     {children}
                 </ClerkProvider>
