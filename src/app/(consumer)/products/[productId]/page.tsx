@@ -279,6 +279,7 @@ async function PurchaseButton({
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Price({ price }: { price: number }) {
     return <div className="text-xl">{formatPrice(price)}</div>;
 }

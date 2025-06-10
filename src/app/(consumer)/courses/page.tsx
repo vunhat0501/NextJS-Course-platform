@@ -1,9 +1,6 @@
-import { PageHeader } from '@/components/PageHeader';
-import {
-    SkeletonArray,
-    SkeletonButton,
-    SkeletonText,
-} from '@/components/Skeleton';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// import { PageHeader } from '@/components/PageHeader';
+import { SkeletonButton, SkeletonText } from '@/components/Skeleton';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -13,29 +10,29 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { database } from '@/drizzle/db';
-import {
-    CourseSectionTable,
-    CourseTable,
-    LessonTable,
-    UserCourseAccessTable,
-    UserLessonCompleteTable,
-} from '@/drizzle/schema';
-import { getCourseIdTag } from '@/features/courses/db/cache/courses';
-import { getUserCourseAccessUserTag } from '@/features/courses/db/cache/userCourseAccess';
-import { getCourseSectionCourseTag } from '@/features/courseSections/db/cache';
-import { wherePublicCourseSections } from '@/features/courseSections/permissions/sections';
-import { getLessonCourseTag } from '@/features/lessons/db/cache/lessons';
-import { getUserLessonCompleteUserTag } from '@/features/lessons/db/cache/userLessonComplete';
-import { wherePublicLessons } from '@/features/lessons/permissions/lessons';
+// import { database } from '@/drizzle/db';
+// import {
+//     CourseSectionTable,
+//     CourseTable,
+//     LessonTable,
+//     UserCourseAccessTable,
+//     UserLessonCompleteTable,
+// } from '@/drizzle/schema';
+// import { getCourseIdTag } from '@/features/courses/db/cache/courses';
+// import { getUserCourseAccessUserTag } from '@/features/courses/db/cache/userCourseAccess';
+// import { getCourseSectionCourseTag } from '@/features/courseSections/db/cache';
+// import { wherePublicCourseSections } from '@/features/courseSections/permissions/sections';
+// import { getLessonCourseTag } from '@/features/lessons/db/cache/lessons';
+// import { getUserLessonCompleteUserTag } from '@/features/lessons/db/cache/userLessonComplete';
+// import { wherePublicLessons } from '@/features/lessons/permissions/lessons';
 import { formatPlural } from '@/lib/formatters';
 import { getCurrentUser } from '@/services/clerk';
-import { and, countDistinct, eq } from 'drizzle-orm';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+// import { and, countDistinct, eq } from 'drizzle-orm';
+// import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
-import { Suspense } from 'react';
+// import { Suspense } from 'react';
 
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 import CourseListClient from './CourseListClient';
 import { getUserCourses } from '@/features/courses/db/getUserCourses';
 
@@ -82,6 +79,7 @@ async function CourseGrid({ filter }: { filter: string }) {
     }
 
     const filteredCourses = courses.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (course: any) =>
             course.name.toLowerCase().includes(filter.toLowerCase()) ||
             (Array.isArray(course.tags)
@@ -91,6 +89,7 @@ async function CourseGrid({ filter }: { filter: string }) {
                 : false),
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return filteredCourses.map((course: any) => (
         <Card key={course.id} className="overflow-hidden flex flex-col">
             <CardHeader>

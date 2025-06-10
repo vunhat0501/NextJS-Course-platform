@@ -1,24 +1,24 @@
 'use client';
-import { PageHeader } from '@/components/PageHeader';
+// import { PageHeader } from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
-import { database } from '@/drizzle/db';
+// import { database } from '@/drizzle/db';
 import { CourseTable } from '@/features/courses/components/CourseTable';
-import { getCourseGlobalTag } from '@/features/courses/db/cache/courses';
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+// import { getCourseGlobalTag } from '@/features/courses/db/cache/courses';
+// import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
-import {
-    CourseSectionTable,
-    CourseTable as DbCourseTable,
-    LessonTable,
-    UserCourseAccessTable,
-} from '@/drizzle/schema';
-import { asc, countDistinct, eq } from 'drizzle-orm';
-import { getUserCourseAccessGlobalTag } from '@/features/courses/db/cache/userCourseAccess';
-import { getCourseSectionGlobalTag } from '@/features/courseSections/db/cache';
-import { getLessonGlobalTag } from '@/features/lessons/db/cache/lessons';
+// import {
+//     CourseSectionTable,
+//     CourseTable as DbCourseTable,
+//     LessonTable,
+//     UserCourseAccessTable,
+// } from '@/drizzle/schema';
+// import { asc, countDistinct, eq } from 'drizzle-orm';
+// import { getUserCourseAccessGlobalTag } from '@/features/courses/db/cache/userCourseAccess';
+// import { getCourseSectionGlobalTag } from '@/features/courseSections/db/cache';
+// import { getLessonGlobalTag } from '@/features/lessons/db/cache/lessons';
 import { useState, useEffect, useRef } from 'react';
 import { getAdminCourses } from '@/features/courses/db/getAdminCourses';
-import AdminCourseListClient from './AdminCourseListClient';
+// import AdminCourseListClient from './AdminCourseListClient';
 
 type AdminCourse = {
     id: string;

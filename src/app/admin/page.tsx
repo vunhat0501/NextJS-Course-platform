@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
     Card,
@@ -24,8 +25,8 @@ import { getPurchaseGlobalTag } from '@/features/purchases/db/cache';
 import { formatNumber, formatPrice } from '@/lib/formatters';
 import { count, countDistinct, isNotNull, sql, sum, eq } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
-import dynamic from 'next/dynamic';
-import { UserTable } from '@/drizzle/schema';
+// import dynamic from 'next/dynamic';
+// import { UserTable } from '@/drizzle/schema';
 import AdminDashboardOverview from './AdminDashboardOverview';
 
 export default async function AdminPage() {
@@ -163,6 +164,7 @@ export default async function AdminPage() {
     );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function StatCard({
     title,
     children,

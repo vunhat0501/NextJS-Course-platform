@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { CourseTable } from '@/features/courses/components/CourseTable';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function AdminCourseListClient({ courses }: { courses: any[] }) {
     const [search, setSearch] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
