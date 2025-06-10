@@ -142,17 +142,17 @@ export function CourseReviewSection({
                             transition={{ duration: 0.2 }}
                             className="flex justify-start"
                         >
-                            <Card className="group hover:shadow-lg transition border border-gray-200 w-full">
-                                <CardHeader className="flex flex-row items-center gap-4 pb-2">
+                            <Card className="w-full max-w-xs sm:max-w-md mx-auto group hover:shadow-lg transition border border-gray-200 p-2 sm:p-6">
+                                <CardHeader className="flex flex-row items-center gap-2 sm:gap-4 pb-2 px-2 sm:px-6">
                                     {r.userAvatar && (
                                         <img
                                             src={r.userAvatar}
                                             alt={r.userName}
-                                            className="w-10 h-10 rounded-full object-cover border"
+                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border"
                                         />
                                     )}
-                                    <div className="flex-1">
-                                        <CardTitle className="flex items-center gap-2 text-lg">
+                                    <div className="flex-1 min-w-0">
+                                        <CardTitle className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg">
                                             <span className="flex items-center gap-1 text-yellow-500 font-bold">
                                                 {r.rating}{' '}
                                                 <span
@@ -163,7 +163,7 @@ export function CourseReviewSection({
                                                 </span>
                                             </span>
                                             {r.userName && (
-                                                <span className="ml-2 text-base text-gray-700 font-medium">
+                                                <span className="ml-1 sm:ml-2 text-xs sm:text-base text-gray-700 font-medium truncate">
                                                     by {r.userName}
                                                 </span>
                                             )}
@@ -175,25 +175,25 @@ export function CourseReviewSection({
                                         </CardDescription>
                                     </div>
                                     {!readOnly && canEditOrDelete(r) && (
-                                        <div className="flex gap-2 ml-2 opacity-80 group-hover:opacity-100">
+                                        <div className="flex gap-1 sm:gap-2 ml-1 sm:ml-2 opacity-80 group-hover:opacity-100">
                                             <button
                                                 title="Edit"
                                                 className="p-1 rounded hover:bg-blue-100"
                                                 onClick={() => handleEdit(r)}
                                             >
-                                                <AiFillEdit className="text-blue-600 text-lg" />
+                                                <AiFillEdit className="text-blue-600 text-base sm:text-lg" />
                                             </button>
                                             <button
                                                 title="Delete"
                                                 className="p-1 rounded hover:bg-red-100"
                                                 onClick={() => handleDelete(r)}
                                             >
-                                                <AiFillDelete className="text-red-600 text-lg" />
+                                                <AiFillDelete className="text-red-600 text-base sm:text-lg" />
                                             </button>
                                         </div>
                                     )}
                                 </CardHeader>
-                                <CardContent className="pt-0 pb-2 text-base text-gray-800">
+                                <CardContent className="pt-0 pb-2 text-sm sm:text-base text-gray-800 px-2 sm:px-6">
                                     {r.comment}
                                 </CardContent>
                             </Card>
