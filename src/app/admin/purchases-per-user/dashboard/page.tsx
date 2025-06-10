@@ -23,6 +23,7 @@ export default async function PurchasesPerUserDashboardPage() {
         user: string;
         userName?: string;
         purchases: number;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }[] = rawPurchasesPerUserData.map((u: any) => ({
         ...u,
         userName: u.userName ?? undefined,

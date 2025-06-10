@@ -1,15 +1,13 @@
 import { ActionButton } from '@/components/ActionButton';
-import { SkeletonButton } from '@/components/Skeleton';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { database } from '@/drizzle/db';
 import {
     CourseSectionTable,
-    LessonStatus,
     LessonTable,
     UserLessonCompleteTable,
     CourseTable,
 } from '@/drizzle/schema';
-import { wherePublicCourseSections } from '@/features/courseSections/permissions/sections';
+// import { wherePublicCourseSections } from '@/features/courseSections/permissions/sections';
 import { updateLessonCompleteStatus } from '@/features/lessons/actions/userLessonComplete';
 import { YouTubeVideoPlayer } from '@/features/lessons/components/YouTubeVideoPlayer';
 import { getLessonIdTag } from '@/features/lessons/db/cache/lessons';
@@ -20,12 +18,12 @@ import {
 } from '@/features/lessons/permissions/lessons';
 import { canUpdateUserLessonCompleteStatus } from '@/features/lessons/permissions/userLessonComplete';
 import { getCurrentUser } from '@/services/clerk';
-import { and, asc, desc, eq, gt, lt } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 import { CheckSquare2Icon, LockIcon, XSquareIcon } from 'lucide-react';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ReactNode, Suspense, Fragment } from 'react';
+import { Fragment } from 'react';
 
 export default async function LessonPage({
     params,
@@ -108,7 +106,7 @@ export default async function LessonPage({
         completedCount === allLessonIds.length && allLessonIds.length > 0;
 
     // Navbar height (estimate or get from actual navbar if possible)
-    const NAVBAR_HEIGHT = 64; // px, adjust if your navbar is taller/shorter
+    // const NAVBAR_HEIGHT = 64; // px, adjust if your navbar is taller/shorter
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-purple-50 to-purple-200 flex">
@@ -131,7 +129,7 @@ export default async function LessonPage({
                     </span>
                 </div>
                 <nav className="flex flex-col gap-2 flex-1">
-                    {course.courseSections.map((section, i) => (
+                    {course.courseSections.map((section) => (
                         <Fragment key={section.id}>
                             <details open className="mb-1">
                                 <summary className="uppercase text-xs font-bold text-gray-700 tracking-wider cursor-pointer select-none flex items-center gap-2">
@@ -306,137 +304,137 @@ export default async function LessonPage({
     );
 }
 
-function LoadingSkeleton() {
-    return null;
-}
+// function LoadingSkeleton() {
+//     return null;
+// }
 
-async function ToLessonButton({
-    children,
-    courseId,
-    lessonFunc,
-    lesson,
-}: {
-    children: ReactNode;
-    courseId: string;
-    lesson: {
-        id: string;
-        sectionId: string;
-        order: number;
-    };
-    lessonFunc: (lesson: {
-        id: string;
-        sectionId: string;
-        order: number;
-    }) => Promise<{ id: string } | undefined>;
-}) {
-    const toLesson = await lessonFunc(lesson);
-    if (toLesson == null) return null;
+// async function ToLessonButton({
+//     children,
+//     courseId,
+//     lessonFunc,
+//     lesson,
+// }: {
+//     children: ReactNode;
+//     courseId: string;
+//     lesson: {
+//         id: string;
+//         sectionId: string;
+//         order: number;
+//     };
+//     lessonFunc: (lesson: {
+//         id: string;
+//         sectionId: string;
+//         order: number;
+//     }) => Promise<{ id: string } | undefined>;
+// }) {
+//     const toLesson = await lessonFunc(lesson);
+//     if (toLesson == null) return null;
 
-    return (
-        <Button variant="outline" asChild>
-            <Link href={`/courses/${courseId}/lessons/${toLesson.id}`}>
-                {children}
-            </Link>
-        </Button>
-    );
-}
+//     return (
+//         <Button variant="outline" asChild>
+//             <Link href={`/courses/${courseId}/lessons/${toLesson.id}`}>
+//                 {children}
+//             </Link>
+//         </Button>
+//     );
+// }
 
-async function getPreviousLesson(lesson: {
-    id: string;
-    sectionId: string;
-    order: number;
-}) {
-    let previousLesson = await database.query.LessonTable.findFirst({
-        where: and(
-            lt(LessonTable.order, lesson.order),
-            eq(LessonTable.sectionId, lesson.sectionId),
-            wherePublicLessons,
-        ),
-        orderBy: desc(LessonTable.order),
-        columns: { id: true },
-    });
+// async function getPreviousLesson(lesson: {
+//     id: string;
+//     sectionId: string;
+//     order: number;
+// }) {
+//     let previousLesson = await database.query.LessonTable.findFirst({
+//         where: and(
+//             lt(LessonTable.order, lesson.order),
+//             eq(LessonTable.sectionId, lesson.sectionId),
+//             wherePublicLessons,
+//         ),
+//         orderBy: desc(LessonTable.order),
+//         columns: { id: true },
+//     });
 
-    if (previousLesson == null) {
-        const section = await database.query.CourseSectionTable.findFirst({
-            where: eq(CourseSectionTable.id, lesson.sectionId),
-            columns: { order: true, courseId: true },
-        });
+//     if (previousLesson == null) {
+//         const section = await database.query.CourseSectionTable.findFirst({
+//             where: eq(CourseSectionTable.id, lesson.sectionId),
+//             columns: { order: true, courseId: true },
+//         });
 
-        if (section == null) return;
+//         if (section == null) return;
 
-        const previousSection =
-            await database.query.CourseSectionTable.findFirst({
-                where: and(
-                    lt(CourseSectionTable.order, section.order),
-                    eq(CourseSectionTable.courseId, section.courseId),
-                    wherePublicCourseSections,
-                ),
-                orderBy: desc(CourseSectionTable.order),
-                columns: { id: true },
-            });
+//         const previousSection =
+//             await database.query.CourseSectionTable.findFirst({
+//                 where: and(
+//                     lt(CourseSectionTable.order, section.order),
+//                     eq(CourseSectionTable.courseId, section.courseId),
+//                     wherePublicCourseSections,
+//                 ),
+//                 orderBy: desc(CourseSectionTable.order),
+//                 columns: { id: true },
+//             });
 
-        if (previousSection == null) return;
+//         if (previousSection == null) return;
 
-        previousLesson = await database.query.LessonTable.findFirst({
-            where: and(
-                eq(LessonTable.sectionId, previousSection.id),
-                wherePublicLessons,
-            ),
-            orderBy: desc(LessonTable.order),
-            columns: { id: true },
-        });
-    }
+//         previousLesson = await database.query.LessonTable.findFirst({
+//             where: and(
+//                 eq(LessonTable.sectionId, previousSection.id),
+//                 wherePublicLessons,
+//             ),
+//             orderBy: desc(LessonTable.order),
+//             columns: { id: true },
+//         });
+//     }
 
-    return previousLesson;
-}
+//     return previousLesson;
+// }
 
-async function getNextLesson(lesson: {
-    id: string;
-    sectionId: string;
-    order: number;
-}) {
-    let nextLesson = await database.query.LessonTable.findFirst({
-        where: and(
-            gt(LessonTable.order, lesson.order),
-            eq(LessonTable.sectionId, lesson.sectionId),
-            wherePublicLessons,
-        ),
-        orderBy: asc(LessonTable.order),
-        columns: { id: true },
-    });
+// async function getNextLesson(lesson: {
+//     id: string;
+//     sectionId: string;
+//     order: number;
+// }) {
+//     let nextLesson = await database.query.LessonTable.findFirst({
+//         where: and(
+//             gt(LessonTable.order, lesson.order),
+//             eq(LessonTable.sectionId, lesson.sectionId),
+//             wherePublicLessons,
+//         ),
+//         orderBy: asc(LessonTable.order),
+//         columns: { id: true },
+//     });
 
-    if (nextLesson == null) {
-        const section = await database.query.CourseSectionTable.findFirst({
-            where: eq(CourseSectionTable.id, lesson.sectionId),
-            columns: { order: true, courseId: true },
-        });
+//     if (nextLesson == null) {
+//         const section = await database.query.CourseSectionTable.findFirst({
+//             where: eq(CourseSectionTable.id, lesson.sectionId),
+//             columns: { order: true, courseId: true },
+//         });
 
-        if (section == null) return;
+//         if (section == null) return;
 
-        const nextSection = await database.query.CourseSectionTable.findFirst({
-            where: and(
-                gt(CourseSectionTable.order, section.order),
-                eq(CourseSectionTable.courseId, section.courseId),
-                wherePublicCourseSections,
-            ),
-            orderBy: asc(CourseSectionTable.order),
-            columns: { id: true },
-        });
+//         const nextSection = await database.query.CourseSectionTable.findFirst({
+//             where: and(
+//                 gt(CourseSectionTable.order, section.order),
+//                 eq(CourseSectionTable.courseId, section.courseId),
+//                 wherePublicCourseSections,
+//             ),
+//             orderBy: asc(CourseSectionTable.order),
+//             columns: { id: true },
+//         });
 
-        if (nextSection == null) return;
+//         if (nextSection == null) return;
 
-        nextLesson = await database.query.LessonTable.findFirst({
-            where: and(
-                eq(LessonTable.sectionId, nextSection.id),
-                wherePublicLessons,
-            ),
-            orderBy: asc(LessonTable.order),
-            columns: { id: true },
-        });
-    }
+//         nextLesson = await database.query.LessonTable.findFirst({
+//             where: and(
+//                 eq(LessonTable.sectionId, nextSection.id),
+//                 wherePublicLessons,
+//             ),
+//             orderBy: asc(LessonTable.order),
+//             columns: { id: true },
+//         });
+//     }
 
-    return nextLesson;
-}
+//     return nextLesson;
+// }
 
 async function getLesson(id: string) {
     'use cache';

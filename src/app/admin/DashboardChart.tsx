@@ -14,6 +14,7 @@ import {
 export default function DashboardChart({
     revenueData,
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     revenueData: any[];
 }) {
     return (

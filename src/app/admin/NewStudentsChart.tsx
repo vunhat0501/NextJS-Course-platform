@@ -14,6 +14,7 @@ import {
 export default function NewStudentsChart({
     newStudentsData,
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     newStudentsData: any[];
 }) {
     return (

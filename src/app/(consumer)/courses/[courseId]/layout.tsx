@@ -14,7 +14,7 @@ import { getCurrentUser } from '@/services/clerk';
 import { asc, eq } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { notFound } from 'next/navigation';
-import { ReactNode, Suspense } from 'react';
+import { ReactNode } from 'react';
 import { CoursePageClient } from './_client';
 import { getUserLessonCompleteUserTag } from '@/features/lessons/db/cache/userLessonComplete';
 import { headers } from 'next/headers';
@@ -79,6 +79,7 @@ async function getCourse(id: string) {
     });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function SuspenseBoundary({
     course,
 }: {

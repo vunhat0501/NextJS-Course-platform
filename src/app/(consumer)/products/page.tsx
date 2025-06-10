@@ -1,6 +1,5 @@
 import { database } from '@/drizzle/db';
 import { ProductTable } from '@/drizzle/schema';
-import { ProductCard } from '@/features/products/components/ProductCard';
 import { getProductGlobalTag } from '@/features/products/db/cache';
 import { wherePublicProducts } from '@/features/products/permissions/products';
 import { asc, count } from 'drizzle-orm';

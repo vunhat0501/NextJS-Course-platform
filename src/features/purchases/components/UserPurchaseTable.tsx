@@ -123,6 +123,7 @@ export function UserPurchaseTableSkeleton() {
 export function UserPurchaseTableWithSearch({
     purchases,
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     purchases: any[];
 }) {
     const [search, setSearch] = useState('');

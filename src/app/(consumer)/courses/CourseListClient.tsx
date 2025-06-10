@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CourseListClient({ courses }: { courses: any[] }) {
     const [filter, setFilter] = useState('');
     const filteredCourses = courses.filter(

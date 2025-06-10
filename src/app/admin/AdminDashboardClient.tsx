@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useState } from 'react';
 import DashboardChart from './DashboardChart';
@@ -9,15 +10,6 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { formatNumber, formatPrice } from '@/lib/formatters';
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-    Legend,
-} from 'recharts';
 import { useRouter } from 'next/navigation';
 
 const DASHBOARD_OVERVIEW = 'overview';
@@ -27,12 +19,13 @@ const DASHBOARD_UNREFUNDED_PURCHASES = 'unrefundedpurchases';
 const DASHBOARD_REFUNDED_PURCHASES = 'refundedpurchases';
 const DASHBOARD_PURCHASES_PER_USER = 'purchasesperuser';
 const DASHBOARD_STUDENTS = 'students';
-const DASHBOARD_PRODUCTS = 'products';
-const DASHBOARD_COURSES = 'courses';
+// const DASHBOARD_PRODUCTS = 'products';
+// const DASHBOARD_COURSES = 'courses';
 const DASHBOARD_COURSESECTIONS = 'coursesections';
-const DASHBOARD_LESSONS = 'lessons';
+// const DASHBOARD_LESSONS = 'lessons';
 
 export default function AdminDashboardClient(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [selectedDashboard, setSelectedDashboard] =
         useState(DASHBOARD_OVERVIEW);
     const router = useRouter();
@@ -167,29 +160,29 @@ export default function AdminDashboardClient(props: any) {
     );
 }
 
-function DashboardDetail({ title, value, color, onBack, description }: any) {
-    return (
-        <div className="container my-6 flex flex-col items-center">
-            <button
-                className="mb-4 px-4 py-2 rounded bg-blue-500 text-white font-bold hover:bg-blue-700 transition"
-                onClick={onBack}
-            >
-                ← Return
-            </button>
-            <div
-                className={`bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl flex flex-col items-center`}
-            >
-                <h2 className={`text-3xl font-bold mb-6 text-center`}>
-                    {title}
-                </h2>
-                <div className={`text-5xl font-extrabold text-center mb-2`}>
-                    {value}
-                </div>
-                <div className="text-lg text-center">{description}</div>
-            </div>
-        </div>
-    );
-}
+// function DashboardDetail({ title, value, color, onBack, description }: any) {
+//     return (
+//         <div className="container my-6 flex flex-col items-center">
+//             <button
+//                 className="mb-4 px-4 py-2 rounded bg-blue-500 text-white font-bold hover:bg-blue-700 transition"
+//                 onClick={onBack}
+//             >
+//                 ← Return
+//             </button>
+//             <div
+//                 className={`bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl flex flex-col items-center`}
+//             >
+//                 <h2 className={`text-3xl font-bold mb-6 text-center`}>
+//                     {title}
+//                 </h2>
+//                 <div className={`text-5xl font-extrabold text-center mb-2`}>
+//                     {value}
+//                 </div>
+//                 <div className="text-lg text-center">{description}</div>
+//             </div>
+//         </div>
+//     );
+// }
 
 function StatCard({
     title,

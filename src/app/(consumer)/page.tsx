@@ -6,10 +6,11 @@ import { asc } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { ProductTable } from '@/drizzle/schema';
 import { UserTable } from '@/drizzle/schema/user';
-import { eq, or } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { UserCourseAccessTable } from '@/drizzle/schema/userCourseAccess';
-import { count, sql } from 'drizzle-orm';
+import { count } from 'drizzle-orm';
 import HeroSlider from './HeroSlider';
+import Link from 'next/link';
 
 export default async function HomePage() {
     const products = await getPublicProducts();
@@ -39,7 +40,7 @@ export default async function HomePage() {
                         quickly and effectively.
                     </p>
                     <button className="bg-teal-500 text-white px-4 py-2 rounded-md">
-                        <a href="/products">Start Learning</a>
+                        <Link href="/products">Start Learning</Link>
                     </button>
                 </div>
                 <HeroSlider />
@@ -62,12 +63,12 @@ export default async function HomePage() {
                     ))}
                 </div>
                 <div className="mt-4 text-center">
-                    <a
+                    <Link
                         href="/products"
                         className="inline-block bg-teal-500 text-white px-4 py-2 rounded-md	hover:bg-green-700"
                     >
                         See All
-                    </a>
+                    </Link>
                 </div>
             </section>
 

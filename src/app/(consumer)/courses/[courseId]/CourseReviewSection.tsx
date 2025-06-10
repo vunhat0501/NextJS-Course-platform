@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useEffect, useState } from 'react';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
@@ -9,7 +10,6 @@ import {
     CardTitle,
     CardDescription,
     CardContent,
-    CardFooter,
 } from '@/components/ui/card';
 
 export function CourseReviewSection({
