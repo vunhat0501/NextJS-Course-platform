@@ -1,4 +1,3 @@
-
 import { database } from "@/drizzle/db"
 import {
   CourseSectionTable,
@@ -18,6 +17,7 @@ import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
 import { CoursePageClient } from "./_client"
 import { getUserLessonCompleteUserTag } from "@/features/lessons/db/cache/userLessonComplete"
+import { headers } from "next/headers"
 
 export default async function CoursePageLayout({
   params,
@@ -31,17 +31,18 @@ export default async function CoursePageLayout({
 
   if (course == null) return notFound()
 
+  // Detect if current path is a lesson page
+  const pathname = (await headers()).get("x-invoke-path") || ""
+  const isLessonPage = pathname.includes("/lessons/")
+
+  if (isLessonPage) {
+    // Render only children for lesson page (no container, no section bar)
+    return <>{children}</>
+  }
+
   return (
-    <div className="grid grid-cols-[300px,1fr] gap-8 container">
-      <div className="py-4">
-        <div className="text-lg font-semibold">{course.name}</div>
-        <Suspense
-          fallback={<CoursePageClient course={mapCourse(course, [])} />}
-        >
-          <SuspenseBoundary course={course} />
-        </Suspense>
-      </div>
-      <div className="py-4">{children}</div>
+    <div className="container py-4">{/* Only render main content, remove sidebar/section bar */}
+      {children}
     </div>
   )
 }

@@ -67,7 +67,7 @@ async function processStripeCheckout(checkoutSession: Stripe.Checkout.Session) {
     if (user == null) throw new Error('User not found');
 
     const courseIds = product.courseProducts.map((cp) => cp.courseId);
-    database.transaction(async (trx) => {
+   await database.transaction(async (trx) => {
         try {
             await addUserCourseAccess({ userId: user.id, courseIds }, trx);
             await insertPurchase(
@@ -93,15 +93,14 @@ async function processStripeCheckout(checkoutSession: Stripe.Checkout.Session) {
                     .set({ slot: currentProduct.slot - 1 })
                     .where(eq(ProductTable.id, productId));
             } else {
-                // Optional: throw error nếu slot đã hết
                 throw new Error('Product is out of stock');
             }
+
+            return; // Bổ sung return để transaction commit thành công
         } catch (error) {
-            trx.rollback();
-            throw error;
+            throw error; // Để transaction rollback tự động (Drizzle xử lý rollback trong try/catch)
         }
     });
-
     return productId;
 }
 

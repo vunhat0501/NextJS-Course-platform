@@ -35,6 +35,7 @@ import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import Link from "next/link"
 import { Suspense } from "react"
 
+
 import SearchBar from './SearchBar';
 import CourseListClient from "./CourseListClient";
 import { getUserCourses } from '@/features/courses/db/getUserCourses';
@@ -53,12 +54,15 @@ export default async function CoursesPage() {
   const courses = await getUserCourses(userId);
 
   return (
-    <div className="container my-6">
-      <PageHeader title="My Courses" />
+    <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-purple-50 to-purple-200 py-10 px-2">
+      <div className="max-w-screen-xl mx-auto w-full">
+        <h1 className="text-3xl font-extrabold mb-8 text-purple-900 drop-shadow tracking-tight">My Courses</h1>
       <CourseListClient courses={courses} />
+      </div>
     </div>
   );
 }
+
 async function CourseGrid({ filter }: { filter: string }) {
   const { userId, redirectToSignIn } = await getCurrentUser()
   if (userId == null) return redirectToSignIn()

@@ -6,7 +6,9 @@ export default function HomeProductListClient({
     products,
     coupon,
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     products: any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     coupon: any;
 }) {
     const [search, setSearch] = useState('');
@@ -59,6 +61,7 @@ export default function HomeProductListClient({
                         imageUrl={product.image_url}
                         coupon={coupon}
                         slot={product.slot}
+                        purchaseCount={product.purchaseCount}
                     />
                 ))}
             </div>
