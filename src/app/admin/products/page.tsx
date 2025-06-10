@@ -11,6 +11,9 @@ import {
 import { asc, countDistinct, eq } from 'drizzle-orm';
 import { getProductGlobalTag } from '@/features/products/db/cache';
 import { ProductTable } from '@/features/products/components/ProductTable';
+
+export const dynamic = 'force-dynamic';
+
 export default async function ProductsPage() {
     const products = await getProducts();
 
