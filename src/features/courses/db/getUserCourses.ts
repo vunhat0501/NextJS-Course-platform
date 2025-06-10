@@ -32,7 +32,7 @@ export async function getUserCourses(userId: string) {
             lessonsComplete: countDistinct(UserLessonCompleteTable.lessonId),
         })
         .from(CourseTable)
-        .leftJoin(
+        .innerJoin(
             UserCourseAccessTable,
             and(
                 eq(UserCourseAccessTable.courseId, CourseTable.id),
