@@ -109,10 +109,10 @@ export default async function LessonPage({
     // const NAVBAR_HEIGHT = 64; // px, adjust if your navbar is taller/shorter
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-purple-50 to-purple-200 flex">
+        <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-purple-50 to-purple-200 flex flex-col sm:flex-row">
             {/* Sidebar */}
             <aside
-                className="w-80 min-w-[260px] max-w-[340px] bg-[#ede9fe] border-r-0 flex flex-col py-8 px-6 h-screen sticky top-[64px] z-10 shadow-lg rounded-none"
+                className="hidden sm:flex w-80 min-w-[260px] max-w-[340px] bg-[#ede9fe] border-r-0 flex-col py-8 px-6 h-screen sticky top-[64px] z-10 shadow-lg rounded-none"
                 style={{
                     borderTopRightRadius: '1rem',
                     borderBottomRightRadius: '1rem',
@@ -223,22 +223,123 @@ export default async function LessonPage({
                     ))}
                 </nav>
             </aside>
+            {/* Sidebar mobile (hiện ở trên, dạng accordion) */}
+            <aside className="block sm:hidden w-full bg-[#ede9fe] py-4 px-2 sticky top-0 z-10 shadow-lg rounded-none">
+                <div className="mb-2 flex items-center gap-2">
+                    <span className="text-base font-bold text-purple-900">
+                        {course.name}
+                    </span>
+                    <span
+                        className={`px-2 py-0.5 rounded-full text-xs font-semibold ${isCourseCompleted ? 'bg-green-100 text-green-700' : 'bg-purple-200 text-purple-700'}`}
+                    >
+                        {isCourseCompleted ? 'Completed' : 'In Progress'}
+                    </span>
+                </div>
+                <nav className="flex flex-col gap-2 flex-1">
+                    {course.courseSections.map((section) => (
+                        <Fragment key={section.id}>
+                            <details open className="mb-1">
+                                <summary className="uppercase text-xs font-bold text-gray-700 tracking-wider cursor-pointer select-none flex items-center gap-2">
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            d="M6 9l6 6 6-6"
+                                        />
+                                    </svg>
+                                    {section.name}
+                                </summary>
+                                <div className="ml-4 mt-1 flex flex-col gap-1">
+                                    {section.lessons.map((l) => (
+                                        <Link
+                                            key={l.id}
+                                            href={`/courses/${courseId}/lessons/${l.id}`}
+                                            className={`flex items-center gap-2 px-2 py-1.5 rounded text-sm font-medium transition w-full
+                        ${l.id === lessonId ? 'bg-purple-300 text-purple-900 font-bold' : 'hover:bg-purple-200 text-gray-700'}
+                      `}
+                                        >
+                                            {l.id === lessonId ? (
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="8"
+                                                        fill="#a78bfa"
+                                                    />
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="4"
+                                                        fill="#fff"
+                                                    />
+                                                </svg>
+                                            ) : completedLessonIds.includes(
+                                                  l.id,
+                                              ) ? (
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="8"
+                                                        fill="#a7f3d0"
+                                                    />
+                                                    <path
+                                                        d="M8 12l2 2 4-4"
+                                                        stroke="#059669"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="8"
+                                                        fill="#e5e7eb"
+                                                    />
+                                                </svg>
+                                            )}
+                                            {l.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </details>
+                        </Fragment>
+                    ))}
+                </nav>
+            </aside>
             {/* Main content */}
             <main
-                className="flex-1 flex flex-col items-center justify-start py-4 px-2 sm:px-10 bg-transparent min-h-screen rounded-none"
+                className="flex-1 flex flex-col items-center justify-start py-4 px-2 sm:py-10 sm:px-10 bg-transparent min-h-screen rounded-none"
                 style={{ minHeight: '100vh' }}
             >
-                <h1
-                    className="text-2xl font-bold text-purple-900 mb-4 w-full"
-                    style={{ maxWidth: '100vw' }}
-                >
-                    {lesson.name}
-                </h1>
-                <div
-                    className="w-full max-w-full aspect-video mb-6 rounded-2xl shadow-lg bg-purple-50 flex items-center justify-center"
-                    style={{ maxWidth: '100vw' }}
-                >
-                    <div className="w-full h-full">
+                <div className="w-full bg-purple-100 rounded-lg sm:rounded-2xl p-2 sm:p-6 mb-6 flex flex-col items-start">
+                    <h2 className="text-lg sm:text-xl font-bold text-purple-900 mb-2 w-full">
+                        {lesson.name}
+                    </h2>
+                    <div className="w-full aspect-video mb-4 rounded-lg overflow-hidden">
                         {canView ? (
                             <YouTubeVideoPlayer
                                 videoId={lesson.youtubeVideoId}
@@ -252,10 +353,10 @@ export default async function LessonPage({
                                           )
                                         : undefined
                                 }
-                                className="w-full h-full rounded-2xl border-none shadow-none"
+                                className="w-full h-full rounded-lg border-none shadow-none"
                             />
                         ) : (
-                            <div className="flex items-center justify-center bg-purple-100 text-purple-700 h-full w-full rounded-2xl shadow-none">
+                            <div className="flex items-center justify-center bg-purple-100 text-purple-700 h-full w-full rounded-lg shadow-none">
                                 <LockIcon className="size-16" />
                                 <span className="ml-4 text-xl font-semibold">
                                     This lesson is locked. Please purchase the
@@ -264,43 +365,40 @@ export default async function LessonPage({
                             </div>
                         )}
                     </div>
-                </div>
-                <div
-                    className="w-full flex flex-row gap-4 justify-end mb-6"
-                    style={{ maxWidth: '100vw' }}
-                >
-                    {canUpdateCompletionStatus && (
-                        <ActionButton
-                            action={updateLessonCompleteStatus.bind(
-                                null,
-                                lesson.id,
-                                !isLessonComplete,
-                            )}
-                            variant="outline"
-                            className="!bg-transparent !shadow-none !border-0"
-                        >
-                            <span
-                                className={`px-5 py-2 rounded-xl font-semibold transition text-purple-700 bg-purple-100 hover:bg-purple-200 border border-purple-200 flex items-center gap-2`}
-                            >
-                                {isLessonComplete ? (
-                                    <CheckSquare2Icon />
-                                ) : (
-                                    <XSquareIcon />
+                    <div className="w-full flex flex-row gap-4 justify-end mb-2">
+                        {canUpdateCompletionStatus && (
+                            <ActionButton
+                                action={updateLessonCompleteStatus.bind(
+                                    null,
+                                    lesson.id,
+                                    !isLessonComplete,
                                 )}
-                                {isLessonComplete
-                                    ? 'Mark as Incomplete'
-                                    : 'Mark as Complete'}
-                            </span>
-                        </ActionButton>
-                    )}
-                    {nextLesson && (
-                        <Link
-                            href={`/courses/${courseId}/lessons/${nextLesson.id}`}
-                            className="px-5 py-2 rounded-xl font-semibold shadow transition text-white bg-purple-500 hover:bg-purple-600 flex items-center gap-2"
-                        >
-                            Next
-                        </Link>
-                    )}
+                                variant="outline"
+                                className="!bg-transparent !shadow-none !border-0"
+                            >
+                                <span
+                                    className={`px-5 py-2 rounded-xl font-semibold transition text-purple-700 bg-purple-200 hover:bg-purple-300 border border-purple-200 flex items-center gap-2`}
+                                >
+                                    {isLessonComplete ? (
+                                        <CheckSquare2Icon />
+                                    ) : (
+                                        <XSquareIcon />
+                                    )}
+                                    {isLessonComplete
+                                        ? 'Mark as Incomplete'
+                                        : 'Mark as Complete'}
+                                </span>
+                            </ActionButton>
+                        )}
+                        {nextLesson && (
+                            <Link
+                                href={`/courses/${courseId}/lessons/${nextLesson.id}`}
+                                className="px-5 py-2 rounded-xl font-semibold shadow transition text-white bg-purple-500 hover:bg-purple-600 flex items-center gap-2"
+                            >
+                                Next
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </main>
         </div>

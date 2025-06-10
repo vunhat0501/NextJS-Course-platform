@@ -11,7 +11,7 @@ export default function ConsumerLayout({
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="container py-4 flex-1">{children}</main>
+            <main className="w-full px-0 py-4 flex-1">{children}</main>
             <Footer />
         </div>
     );
