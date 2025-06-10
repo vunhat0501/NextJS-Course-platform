@@ -1,7 +1,7 @@
 import React from 'react';
 import { database } from '@/drizzle/db';
 import { PurchaseTable } from '@/drizzle/schema';
-import { sql, sum } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import RefundSalesDashboard from '../../RefundSalesDashboard';
 import { addMonths, format } from 'date-fns';
 
@@ -29,8 +29,8 @@ export default async function RefundsDashboardPage() {
     const safeMaxMonth = String(maxMonth ?? nowStr);
     const { month: minM, year: minY } = parseMonthYear(safeMinMonth);
     const { month: maxM, year: maxY } = parseMonthYear(safeMaxMonth);
-    let minDate = new Date(minY, minM - 1);
-    let maxDate = new Date(maxY, maxM - 1);
+    const minDate = new Date(minY, minM - 1);
+    const maxDate = new Date(maxY, maxM - 1);
     // Sinh danh sách tháng liên tục
     const allMonths: string[] = [];
     let d = minDate;

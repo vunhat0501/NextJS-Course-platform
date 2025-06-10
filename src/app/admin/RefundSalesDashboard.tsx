@@ -22,6 +22,7 @@ export default function RefundSalesDashboard({
     refundData,
     totalRefunds,
     totalSales,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: any) {
     const router = useRouter();
     const pieData =
