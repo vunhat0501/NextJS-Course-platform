@@ -336,7 +336,9 @@ export default async function LessonPage({
                 style={{ minHeight: '100vh' }}
             >
                 <div className="w-full bg-purple-100 rounded-lg sm:rounded-2xl p-2 sm:p-6 mb-6 flex flex-col items-start">
-                    <h2 className="text-lg sm:text-xl font-bold text-purple-900 mb-2 w-full">{lesson.name}</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-purple-900 mb-2 w-full">
+                        {lesson.name}
+                    </h2>
                     <div className="w-full aspect-video mb-4 rounded-lg overflow-hidden">
                         {canView ? (
                             <YouTubeVideoPlayer
