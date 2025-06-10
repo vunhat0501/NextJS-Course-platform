@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function SyncUsersPage() {
+function SyncUsersInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectTo = searchParams.get('redirectTo') || '/';
@@ -15,7 +16,6 @@ export default function SyncUsersPage() {
                 if (res.ok) {
                     router.push(redirectTo);
                 } else {
-                    // Handle error appropriately
                     console.error('Failed to create user');
                 }
             } catch (error) {
@@ -27,4 +27,12 @@ export default function SyncUsersPage() {
     }, [redirectTo, router]);
 
     return <div>Creating your account, please wait...</div>;
+}
+
+export default function SyncUsersPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SyncUsersInner />
+        </Suspense>
+    );
 }
