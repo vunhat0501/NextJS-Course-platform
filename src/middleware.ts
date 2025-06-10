@@ -36,11 +36,7 @@ const aj = arcjet({
 });
 
 export default clerkMiddleware(async (auth, req) => {
-    const decision = await aj.protect(
-        env.TEST_IP_ADDRESS
-            ? { ...req, ip: env.TEST_IP_ADDRESS, headers: req.headers }
-            : req,
-    );
+    const decision = await aj.protect(req);
 
     if ((await decision).isDenied())
         return new NextResponse(null, { status: 403 });
