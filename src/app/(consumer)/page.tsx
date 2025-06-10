@@ -23,7 +23,9 @@ export default async function HomePage() {
         .select({ userId: UserCourseAccessTable.userId, courseCount: count() })
         .from(UserCourseAccessTable)
         .groupBy(UserCourseAccessTable.userId);
-    const accessMap = Object.fromEntries(accessCounts.map(a => [a.userId, a.courseCount]));
+    const accessMap = Object.fromEntries(
+        accessCounts.map((a) => [a.userId, a.courseCount]),
+    );
     return (
         <div className="font-sans text-gray-800">
             {/* Hero */}
@@ -72,41 +74,49 @@ export default async function HomePage() {
             {/* Features */}
             <section className="py-10 px-6">
                 <div className="flex flex-col md:flex-row justify-center gap-8">
-                  {[
-                    {
-                      icon: "🎓",
-                      title: "Reputable lecturer",
-                      desc: "Taught by leading experts",
-                      color: "from-purple-400 to-pink-400"
-                    },
-                    {
-                      icon: "📝",
-                      title: "Proof just completed",
-                      desc: "Receive immediately upon completion of the course.",
-                      color: "from-blue-400 to-cyan-400"
-                    },
-                    {
-                      icon: "📞",
-                      title: "24/7 support",
-                      desc: "Support students anytime, anywhere.",
-                      color: "from-green-400 to-teal-400"
-                    }
-                  ].map((f, i) => (
-                    <div
-                      key={i}
-                      className={`flex flex-col items-center p-6 rounded-2xl shadow-xl bg-gradient-to-br ${f.color} text-white w-full max-w-xs transition-transform hover:scale-105 hover:shadow-2xl`}
-                    >
-                      <div className="text-4xl mb-3 drop-shadow">{f.icon}</div>
-                      <div className="font-bold text-lg mb-1">{f.title}</div>
-                      <div className="text-sm opacity-90 text-center">{f.desc}</div>
-                    </div>
-                  ))}
+                    {[
+                        {
+                            icon: '🎓',
+                            title: 'Reputable lecturer',
+                            desc: 'Taught by leading experts',
+                            color: 'from-purple-400 to-pink-400',
+                        },
+                        {
+                            icon: '📝',
+                            title: 'Proof just completed',
+                            desc: 'Receive immediately upon completion of the course.',
+                            color: 'from-blue-400 to-cyan-400',
+                        },
+                        {
+                            icon: '📞',
+                            title: '24/7 support',
+                            desc: 'Support students anytime, anywhere.',
+                            color: 'from-green-400 to-teal-400',
+                        },
+                    ].map((f, i) => (
+                        <div
+                            key={i}
+                            className={`flex flex-col items-center p-6 rounded-2xl shadow-xl bg-gradient-to-br ${f.color} text-white w-full max-w-xs transition-transform hover:scale-105 hover:shadow-2xl`}
+                        >
+                            <div className="text-4xl mb-3 drop-shadow">
+                                {f.icon}
+                            </div>
+                            <div className="font-bold text-lg mb-1">
+                                {f.title}
+                            </div>
+                            <div className="text-sm opacity-90 text-center">
+                                {f.desc}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </section>
 
             {/* Teachers */}
             <section className="py-10 px-6">
-                <h2 className="text-2xl font-bold mb-4">Featured Instructors</h2>
+                <h2 className="text-2xl font-bold mb-4">
+                    Featured Instructors
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {instructors.map((instructor) => (
                         <div
@@ -114,13 +124,21 @@ export default async function HomePage() {
                             className="flex flex-col items-center p-4 border rounded-lg shadow bg-white"
                         >
                             <img
-                                src={instructor.imageUrl && instructor.imageUrl.trim() !== '' ? instructor.imageUrl : "/default-avatar.png"}
+                                src={
+                                    instructor.imageUrl &&
+                                    instructor.imageUrl.trim() !== ''
+                                        ? instructor.imageUrl
+                                        : '/default-avatar.png'
+                                }
                                 alt={instructor.name}
                                 className="w-20 h-20 rounded-full mb-2 object-cover border border-gray-200 bg-gray-100"
                             />
-                            <h3 className="font-semibold text-gray-900">{instructor.name}</h3>
+                            <h3 className="font-semibold text-gray-900">
+                                {instructor.name}
+                            </h3>
                             <p className="text-sm text-gray-600">
-                              Purchased {accessMap[instructor.id] || 0} courses
+                                Purchased {accessMap[instructor.id] || 0}{' '}
+                                courses
                             </p>
                         </div>
                     ))}
@@ -129,13 +147,18 @@ export default async function HomePage() {
 
             {/* Testimonials */}
             <section className="py-10 px-6 flex justify-center">
-              <div className="bg-gradient-to-br from-purple-50 via-white to-blue-50 rounded-2xl shadow-xl p-10 max-w-3xl w-full text-center relative">
-                <div className="text-5xl text-purple-300 absolute left-6 top-2 select-none">“</div>
-                <p className="italic text-lg text-gray-700 z-10 relative">
-                  The course here is great! The content is easy to understand and the staff are dedicated and experienced.
-                </p>
-                <div className="mt-4 font-semibold text-purple-700">- Petty</div>
-              </div>
+                <div className="bg-gradient-to-br from-purple-50 via-white to-blue-50 rounded-2xl shadow-xl p-10 max-w-3xl w-full text-center relative">
+                    <div className="text-5xl text-purple-300 absolute left-6 top-2 select-none">
+                        “
+                    </div>
+                    <p className="italic text-lg text-gray-700 z-10 relative">
+                        The course here is great! The content is easy to
+                        understand and the staff are dedicated and experienced.
+                    </p>
+                    <div className="mt-4 font-semibold text-purple-700">
+                        - Petty
+                    </div>
+                </div>
             </section>
         </div>
     );

@@ -66,8 +66,14 @@ export default async function AdminPage() {
             count: count(PurchaseTable.id),
         })
         .from(CourseTable)
-        .leftJoin(CourseProductTable, eq(CourseProductTable.courseId, CourseTable.id))
-        .leftJoin(PurchaseTable, eq(PurchaseTable.productId, CourseProductTable.productId))
+        .leftJoin(
+            CourseProductTable,
+            eq(CourseProductTable.courseId, CourseTable.id),
+        )
+        .leftJoin(
+            PurchaseTable,
+            eq(PurchaseTable.productId, CourseProductTable.productId),
+        )
         .groupBy(CourseTable.id)
         .orderBy(sql`count desc`)
         .limit(5);
@@ -81,16 +87,68 @@ export default async function AdminPage() {
 
     // StatCards
     const statCards = [
-        { title: 'Net Sales', value: formatPrice(netSales), icon: '💰', color: 'from-green-400 to-blue-500' },
-        { title: 'Refunded Sales', value: formatPrice(totalRefunds), icon: '↩️', color: 'from-red-400 to-pink-500' },
-        { title: 'Un-Refunded Purchases', value: formatNumber(netPurchases), icon: '🛒', color: 'from-yellow-400 to-orange-500' },
-        { title: 'Refunded Purchases', value: formatNumber(refundedPurchases), icon: '❌', color: 'from-pink-400 to-red-500' },
-        { title: 'Purchases Per User', value: formatNumber(averageNetPurchasesPerCustomer, { maximumFractionDigits: 2 }), icon: '👤', color: 'from-blue-400 to-purple-500' },
-        { title: 'Students', value: formatNumber(totalStudents), icon: '🎓', color: 'from-indigo-400 to-blue-500' },
-        { title: 'Products', value: formatNumber(totalProducts), icon: '📦', color: 'from-teal-400 to-green-500' },
-        { title: 'Courses', value: formatNumber(totalCourses), icon: '📚', color: 'from-purple-400 to-indigo-500' },
-        { title: 'CourseSections', value: formatNumber(totalCourseSections), icon: '🗂️', color: 'from-cyan-400 to-blue-400' },
-        { title: 'Lessons', value: formatNumber(totalLessons), icon: '📝', color: 'from-orange-400 to-yellow-500' },
+        {
+            title: 'Net Sales',
+            value: formatPrice(netSales),
+            icon: '💰',
+            color: 'from-green-400 to-blue-500',
+        },
+        {
+            title: 'Refunded Sales',
+            value: formatPrice(totalRefunds),
+            icon: '↩️',
+            color: 'from-red-400 to-pink-500',
+        },
+        {
+            title: 'Un-Refunded Purchases',
+            value: formatNumber(netPurchases),
+            icon: '🛒',
+            color: 'from-yellow-400 to-orange-500',
+        },
+        {
+            title: 'Refunded Purchases',
+            value: formatNumber(refundedPurchases),
+            icon: '❌',
+            color: 'from-pink-400 to-red-500',
+        },
+        {
+            title: 'Purchases Per User',
+            value: formatNumber(averageNetPurchasesPerCustomer, {
+                maximumFractionDigits: 2,
+            }),
+            icon: '👤',
+            color: 'from-blue-400 to-purple-500',
+        },
+        {
+            title: 'Students',
+            value: formatNumber(totalStudents),
+            icon: '🎓',
+            color: 'from-indigo-400 to-blue-500',
+        },
+        {
+            title: 'Products',
+            value: formatNumber(totalProducts),
+            icon: '📦',
+            color: 'from-teal-400 to-green-500',
+        },
+        {
+            title: 'Courses',
+            value: formatNumber(totalCourses),
+            icon: '📚',
+            color: 'from-purple-400 to-indigo-500',
+        },
+        {
+            title: 'CourseSections',
+            value: formatNumber(totalCourseSections),
+            icon: '🗂️',
+            color: 'from-cyan-400 to-blue-400',
+        },
+        {
+            title: 'Lessons',
+            value: formatNumber(totalLessons),
+            icon: '📝',
+            color: 'from-orange-400 to-yellow-500',
+        },
     ];
 
     return (
@@ -105,13 +163,29 @@ export default async function AdminPage() {
     );
 }
 
-function StatCard({ title, children, icon, color }: { title: string; children: React.ReactNode; icon: string; color: string }) {
+function StatCard({
+    title,
+    children,
+    icon,
+    color,
+}: {
+    title: string;
+    children: React.ReactNode;
+    icon: string;
+    color: string;
+}) {
     return (
-        <Card className={`rounded-xl shadow-lg bg-gradient-to-br ${color} text-white hover:scale-105 transition-transform duration-300`}>
+        <Card
+            className={`rounded-xl shadow-lg bg-gradient-to-br ${color} text-white hover:scale-105 transition-transform duration-300`}
+        >
             <CardHeader className="text-center flex flex-col items-center gap-2">
                 <span className="text-3xl">{icon}</span>
-                <CardDescription className="text-lg text-white/80 font-semibold">{title}</CardDescription>
-                <CardTitle className="font-extrabold text-3xl drop-shadow-lg">{children}</CardTitle>
+                <CardDescription className="text-lg text-white/80 font-semibold">
+                    {title}
+                </CardDescription>
+                <CardTitle className="font-extrabold text-3xl drop-shadow-lg">
+                    {children}
+                </CardTitle>
             </CardHeader>
         </Card>
     );
@@ -222,7 +296,7 @@ async function getMonthlyRevenueData() {
         .groupBy(sql`TO_CHAR(${PurchaseTable.createdAt}, 'MM/YYYY')`)
         .orderBy(sql`MIN(${PurchaseTable.createdAt})`);
 
-    return data.map(row => ({
+    return data.map((row) => ({
         month: row.month,
         revenue: row.revenue,
         refunded: row.refunded,
@@ -239,8 +313,8 @@ async function getMonthlyNewStudentsData() {
         .groupBy(sql`TO_CHAR(${UserCourseAccessTable.createdAt}, 'MM/YYYY')`)
         .orderBy(sql`MIN(${UserCourseAccessTable.createdAt})`);
 
-    return data.map(row => ({
+    return data.map((row) => ({
         month: row.month,
         students: row.students,
     }));
-} 
+}

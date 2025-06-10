@@ -14,7 +14,7 @@ export function YouTubeVideoPlayer({
     return (
         <YouTube
             videoId={videoId}
-            className={className || "w-full h-full"}
+            className={className || 'w-full h-full'}
             opts={{ width: '100%', height: '100%' }}
             onEnd={onFinishedVideo}
         />

@@ -1,29 +1,31 @@
+'use server';
 
-"use server"
-
-import { getCurrentUser } from "@/services/clerk"
-import { canUpdateUserLessonCompleteStatus } from "../permissions/userLessonComplete"
-import { updateLessonCompleteStatus as updateLessonCompleteStatusDb } from "../db/userLessonComplete"
+import { getCurrentUser } from '@/services/clerk';
+import { canUpdateUserLessonCompleteStatus } from '../permissions/userLessonComplete';
+import { updateLessonCompleteStatus as updateLessonCompleteStatusDb } from '../db/userLessonComplete';
 
 export async function updateLessonCompleteStatus(
-  lessonId: string,
-  complete: boolean
+    lessonId: string,
+    complete: boolean,
 ) {
-  const { userId } = await getCurrentUser()
+    const { userId } = await getCurrentUser();
 
-  const hasPermission = await canUpdateUserLessonCompleteStatus(
-    { userId },
-    lessonId
-  )
+    const hasPermission = await canUpdateUserLessonCompleteStatus(
+        { userId },
+        lessonId,
+    );
 
-  if (userId == null || !hasPermission) {
-    return { error: true, message: "Error updating lesson completion status" }
-  }
+    if (userId == null || !hasPermission) {
+        return {
+            error: true,
+            message: 'Error updating lesson completion status',
+        };
+    }
 
-  await updateLessonCompleteStatusDb({ lessonId, userId, complete })
+    await updateLessonCompleteStatusDb({ lessonId, userId, complete });
 
-  return {
-    error: false,
-    message: "Successfully updated lesson completion status",
-  }
+    return {
+        error: false,
+        message: 'Successfully updated lesson completion status',
+    };
 }

@@ -38,7 +38,7 @@ import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 //import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { CourseReviewSection } from "@/app/(consumer)/courses/[courseId]/CourseReviewSection";
+import { CourseReviewSection } from '@/app/(consumer)/courses/[courseId]/CourseReviewSection';
 
 export default async function ProductPage({
     params,
@@ -71,7 +71,12 @@ export default async function ProductPage({
                     {/* Image */}
                     <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
                         <img
-                            src={product.image_url && product.image_url.trim() !== '' ? product.image_url : '/default-course.png'}
+                            src={
+                                product.image_url &&
+                                product.image_url.trim() !== ''
+                                    ? product.image_url
+                                    : '/default-course.png'
+                            }
                             alt={product.name}
                             className="rounded-3xl shadow-2xl object-cover w-full max-w-md h-64 md:h-80 border-8 border-white transition-transform duration-300 hover:scale-105"
                         />
@@ -79,75 +84,163 @@ export default async function ProductPage({
                     {/* Info */}
                     <div className="w-full md:w-1/2 flex flex-col gap-7 bg-gradient-to-br from-white/90 via-blue-50 to-purple-50 rounded-3xl shadow-2xl border-2 border-blue-100 p-10">
                         <div className="flex items-center gap-4 flex-wrap">
-                            <span className="bg-gradient-to-r from-blue-600 to-purple-500 text-white px-6 py-2 rounded-2xl text-3xl font-extrabold shadow-lg tracking-wide">{formatPrice(product.priceInDollars)}</span>
-                            <span className="text-lg text-gray-500 font-semibold">{product.slot} slots</span>
+                            <span className="bg-gradient-to-r from-blue-600 to-purple-500 text-white px-6 py-2 rounded-2xl text-3xl font-extrabold shadow-lg tracking-wide">
+                                {formatPrice(product.priceInDollars)}
+                            </span>
+                            <span className="text-lg text-gray-500 font-semibold">
+                                {product.slot} slots
+                            </span>
                         </div>
                         {isFull && (
                             <div className="text-red-600 font-bold text-lg"></div>
                         )}
-                        <h1 className="text-4xl font-extrabold text-blue-900 drop-shadow-lg mb-2 leading-tight tracking-tight">{product.name}</h1>
-                        <div className="text-gray-700 text-lg mb-2 font-medium">{product.description}</div>
-                        <div className="flex flex-wrap gap-4 text-base text-gray-600">
-                            <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full font-semibold">{formatPlural(courseCount, { singular: 'course', plural: 'courses' })}</span>
-                            <span className="bg-purple-100 text-purple-700 px-4 py-1 rounded-full font-semibold">{formatPlural(lessonCount, { singular: 'lesson', plural: 'lessons' })}</span>
+                        <h1 className="text-4xl font-extrabold text-blue-900 drop-shadow-lg mb-2 leading-tight tracking-tight">
+                            {product.name}
+                        </h1>
+                        <div className="text-gray-700 text-lg mb-2 font-medium">
+                            {product.description}
                         </div>
-                        <Suspense fallback={<SkeletonButton className="h-12 w-36" />}>
-                            <PurchaseButton productId={product.id} isFull={isFull} />
+                        <div className="flex flex-wrap gap-4 text-base text-gray-600">
+                            <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full font-semibold">
+                                {formatPlural(courseCount, {
+                                    singular: 'course',
+                                    plural: 'courses',
+                                })}
+                            </span>
+                            <span className="bg-purple-100 text-purple-700 px-4 py-1 rounded-full font-semibold">
+                                {formatPlural(lessonCount, {
+                                    singular: 'lesson',
+                                    plural: 'lessons',
+                                })}
+                            </span>
+                        </div>
+                        <Suspense
+                            fallback={<SkeletonButton className="h-12 w-36" />}
+                        >
+                            <PurchaseButton
+                                productId={product.id}
+                                isFull={isFull}
+                            />
                         </Suspense>
                     </div>
                 </div>
                 {/* Courses & Reviews */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div className="space-y-10">
-                        <h2 className="text-2xl font-extrabold text-blue-900 mb-4 tracking-tight">Included Courses</h2>
+                        <h2 className="text-2xl font-extrabold text-blue-900 mb-4 tracking-tight">
+                            Included Courses
+                        </h2>
                         {product.courses.map((course) => (
-                            <Card key={course.id} className="rounded-2xl shadow-xl border-2 border-blue-100 bg-white/90 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl">
+                            <Card
+                                key={course.id}
+                                className="rounded-2xl shadow-xl border-2 border-blue-100 bg-white/90 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                            >
                                 <CardHeader>
-                                    <CardTitle className="text-xl text-blue-800 font-bold">{course.name}</CardTitle>
+                                    <CardTitle className="text-xl text-blue-800 font-bold">
+                                        {course.name}
+                                    </CardTitle>
                                     <CardDescription className="text-gray-500 font-medium">
-                                        {formatPlural(course.courseSections.length, { plural: 'sections', singular: 'section' })} • {formatPlural(sumArray(course.courseSections, (s) => s.lessons.length), { plural: 'lessons', singular: 'lesson' })}
+                                        {formatPlural(
+                                            course.courseSections.length,
+                                            {
+                                                plural: 'sections',
+                                                singular: 'section',
+                                            },
+                                        )}{' '}
+                                        •{' '}
+                                        {formatPlural(
+                                            sumArray(
+                                                course.courseSections,
+                                                (s) => s.lessons.length,
+                                            ),
+                                            {
+                                                plural: 'lessons',
+                                                singular: 'lesson',
+                                            },
+                                        )}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <Accordion type="multiple">
-                                        {course.courseSections.map((section) => (
-                                            <AccordionItem key={section.id} value={section.id}>
-                                                <AccordionTrigger className="flex gap-2 text-lg font-semibold text-purple-700">
-                                                    <div className="flex flex-col flex-grow">
-                                                        <span>{section.name}</span>
-                                                        <span className="text-xs text-gray-400">{formatPlural(section.lessons.length, { plural: 'lessons', singular: 'lesson' })}</span>
-                                                    </div>
-                                                </AccordionTrigger>
-                                                <AccordionContent className="flex flex-col gap-2">
-                                                    {section.lessons.map((lesson) => (
-                                                        <div key={lesson.id} className="flex items-center gap-2 text-base text-gray-700">
-                                                            <VideoIcon className="size-4 text-blue-400" />
-                                                            {lesson.status === 'preview' ? (
-                                                                <Link href={`/courses/${course.id}/lessons/${lesson.id}`} className="underline text-blue-600 hover:text-blue-800">
-                                                                    {lesson.name}
-                                                                </Link>
-                                                            ) : (
-                                                                lesson.name
-                                                            )}
+                                        {course.courseSections.map(
+                                            (section) => (
+                                                <AccordionItem
+                                                    key={section.id}
+                                                    value={section.id}
+                                                >
+                                                    <AccordionTrigger className="flex gap-2 text-lg font-semibold text-purple-700">
+                                                        <div className="flex flex-col flex-grow">
+                                                            <span>
+                                                                {section.name}
+                                                            </span>
+                                                            <span className="text-xs text-gray-400">
+                                                                {formatPlural(
+                                                                    section
+                                                                        .lessons
+                                                                        .length,
+                                                                    {
+                                                                        plural: 'lessons',
+                                                                        singular:
+                                                                            'lesson',
+                                                                    },
+                                                                )}
+                                                            </span>
                                                         </div>
-                                                    ))}
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        ))}
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="flex flex-col gap-2">
+                                                        {section.lessons.map(
+                                                            (lesson) => (
+                                                                <div
+                                                                    key={
+                                                                        lesson.id
+                                                                    }
+                                                                    className="flex items-center gap-2 text-base text-gray-700"
+                                                                >
+                                                                    <VideoIcon className="size-4 text-blue-400" />
+                                                                    {lesson.status ===
+                                                                    'preview' ? (
+                                                                        <Link
+                                                                            href={`/courses/${course.id}/lessons/${lesson.id}`}
+                                                                            className="underline text-blue-600 hover:text-blue-800"
+                                                                        >
+                                                                            {
+                                                                                lesson.name
+                                                                            }
+                                                                        </Link>
+                                                                    ) : (
+                                                                        lesson.name
+                                                                    )}
+                                                                </div>
+                                                            ),
+                                                        )}
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            ),
+                                        )}
                                     </Accordion>
                                 </CardContent>
                             </Card>
                         ))}
                     </div>
                     <div className="space-y-10">
-                        <h2 className="text-2xl font-extrabold text-purple-900 mb-4 tracking-tight">Reviews</h2>
+                        <h2 className="text-2xl font-extrabold text-purple-900 mb-4 tracking-tight">
+                            Reviews
+                        </h2>
                         {product.courses.map((course) => (
-                            <div key={course.id} className="rounded-2xl shadow-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-blue-50 p-6 md:p-8 mb-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl">
+                            <div
+                                key={course.id}
+                                className="rounded-2xl shadow-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-blue-50 p-6 md:p-8 mb-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                            >
                                 <CardHeader>
-                                    <CardTitle className="text-lg text-purple-800 font-bold mb-4">{course.name}</CardTitle>
+                                    <CardTitle className="text-lg text-purple-800 font-bold mb-4">
+                                        {course.name}
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-0">
-                                    <CourseReviewSection courseId={course.id} readOnly={true} />
+                                    <CourseReviewSection
+                                        courseId={course.id}
+                                        readOnly={true}
+                                    />
                                 </CardContent>
                             </div>
                         ))}
@@ -158,7 +251,13 @@ export default async function ProductPage({
     );
 }
 
-async function PurchaseButton({ productId, isFull }: { productId: string, isFull: boolean }) {
+async function PurchaseButton({
+    productId,
+    isFull,
+}: {
+    productId: string;
+    isFull: boolean;
+}) {
     const { userId } = await getCurrentUser();
     const alreadyOwnsProduct =
         userId != null && (await userOwnsProduct({ userId, productId }));
@@ -166,7 +265,11 @@ async function PurchaseButton({ productId, isFull }: { productId: string, isFull
     if (alreadyOwnsProduct) {
         return <p>You already own this product</p>;
     } else if (isFull) {
-        return <p className="text-red-600 font-bold text-lg">All slots for this course are full!</p>;
+        return (
+            <p className="text-red-600 font-bold text-lg">
+                All slots for this course are full!
+            </p>
+        );
     } else {
         return (
             <Button className="text-xl h-auto py-4 px-8 rounded-lg" asChild>

@@ -42,9 +42,11 @@ async function getPublicProducts() {
         .select({ productId: PurchaseTable.productId, count: count() })
         .from(PurchaseTable)
         .groupBy(PurchaseTable.productId);
-    const purchaseCountMap = Object.fromEntries(purchaseCounts.map(p => [p.productId, p.count]));
+    const purchaseCountMap = Object.fromEntries(
+        purchaseCounts.map((p) => [p.productId, p.count]),
+    );
 
-    return products.map(product => ({
+    return products.map((product) => ({
         ...product,
         purchaseCount: purchaseCountMap[product.id] ?? 0,
     }));

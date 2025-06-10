@@ -40,17 +40,27 @@ export default function CoursesPage() {
     }, []);
 
     // Filter client-side
-    const displayCourses = courses.filter(course =>
-        course.name.toLowerCase().includes(search.toLowerCase()) ||
-        (Array.isArray(course.tags) ? course.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())) : false)
+    const displayCourses = courses.filter(
+        (course) =>
+            course.name.toLowerCase().includes(search.toLowerCase()) ||
+            (Array.isArray(course.tags)
+                ? course.tags.some((tag: string) =>
+                      tag.toLowerCase().includes(search.toLowerCase()),
+                  )
+                : false),
     );
 
     return (
         <div className="w-full flex flex-col items-center py-8 bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
             <div className="w-full max-w-5xl">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-                    <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight drop-shadow-lg">Courses</h1>
-                    <Button asChild className="px-6 py-3 text-lg font-bold rounded-xl shadow-md">
+                    <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight drop-shadow-lg">
+                        Courses
+                    </h1>
+                    <Button
+                        asChild
+                        className="px-6 py-3 text-lg font-bold rounded-xl shadow-md"
+                    >
                         <Link href="/admin/courses/new">New Course</Link>
                     </Button>
                 </div>
@@ -61,10 +71,18 @@ export default function CoursesPage() {
                         type="text"
                         placeholder="Search courses by name or tag..."
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                     {search && (
-                        <Button variant="outline" onClick={() => { setSearch(''); inputRef.current?.focus(); }}>Clear</Button>
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                setSearch('');
+                                inputRef.current?.focus();
+                            }}
+                        >
+                            Clear
+                        </Button>
                     )}
                 </div>
                 <div className="bg-white rounded-3xl shadow-2xl p-8">
@@ -74,4 +92,3 @@ export default function CoursesPage() {
         </div>
     );
 }
-

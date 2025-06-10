@@ -1,6 +1,10 @@
-"use server";
+'use server';
 import { revalidateTag } from 'next/cache';
-import { getLessonGlobalTag, getLessonIdTag, getLessonCourseTag } from './lessons';
+import {
+    getLessonGlobalTag,
+    getLessonIdTag,
+    getLessonCourseTag,
+} from './lessons';
 
 export async function revalidateLessonCache({
     id,
@@ -12,4 +16,4 @@ export async function revalidateLessonCache({
     revalidateTag(getLessonGlobalTag());
     revalidateTag(getLessonIdTag(id));
     revalidateTag(getLessonCourseTag(courseId));
-} 
+}

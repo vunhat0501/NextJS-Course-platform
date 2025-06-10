@@ -1,4 +1,4 @@
-"use cache";
+'use cache';
 import { database } from '@/drizzle/db';
 import {
     CourseSectionTable,
@@ -43,4 +43,4 @@ export async function getAdminCourses() {
         .orderBy(asc(DbCourseTable.name))
         .groupBy(DbCourseTable.id);
     //** dung leftjoin de trong truong hop neu course khong co section nao thi se hien 0 thay vi khong hien gi ca */
-} 
+}

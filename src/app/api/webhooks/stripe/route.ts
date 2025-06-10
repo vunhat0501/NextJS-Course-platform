@@ -67,7 +67,7 @@ async function processStripeCheckout(checkoutSession: Stripe.Checkout.Session) {
     if (user == null) throw new Error('User not found');
 
     const courseIds = product.courseProducts.map((cp) => cp.courseId);
-   await database.transaction(async (trx) => {
+    await database.transaction(async (trx) => {
         try {
             await addUserCourseAccess({ userId: user.id, courseIds }, trx);
             await insertPurchase(

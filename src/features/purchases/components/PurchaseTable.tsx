@@ -13,10 +13,9 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { refundPurchase } from '@/features/purchases/actions/purchases';
 import { formatDate, formatPlural, formatPrice } from '@/lib/formatters';
 //import Image from 'next/image';
-
-import { refundPurchase } from '../action/purchases';
 
 export function PurchaseTable({
     purchases,

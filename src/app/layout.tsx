@@ -18,9 +18,7 @@ export default function RootLayout({
         <html lang="en">
             <body className="antialiased">
                 <GlobalLoadingProvider />
-                <ClerkProvider>
-                    {children}
-                </ClerkProvider>
+                <ClerkProvider>{children}</ClerkProvider>
             </body>
         </html>
     );
