@@ -225,7 +225,7 @@ export default async function LessonPage({
             </aside>
             {/* Main content */}
             <main
-                className="flex-1 flex flex-col items-center justify-start py-10 px-10 bg-transparent min-h-screen rounded-none"
+                className="flex-1 flex flex-col items-center justify-start py-4 px-2 sm:px-10 bg-transparent min-h-screen rounded-none"
                 style={{ minHeight: '100vh' }}
             >
                 <h1
@@ -234,8 +234,11 @@ export default async function LessonPage({
                 >
                     {lesson.name}
                 </h1>
-                <div className="w-full" style={{ maxWidth: '100vw' }}>
-                    <div className="aspect-video mb-6 rounded-2xl shadow-lg bg-purple-50 flex items-center justify-center w-full">
+                <div
+                    className="w-full max-w-full aspect-video mb-6 rounded-2xl shadow-lg bg-purple-50 flex items-center justify-center"
+                    style={{ maxWidth: '100vw' }}
+                >
+                    <div className="w-full h-full">
                         {canView ? (
                             <YouTubeVideoPlayer
                                 videoId={lesson.youtubeVideoId}
